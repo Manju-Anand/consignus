@@ -85,18 +85,18 @@
               <a href="<?= base_url(); ?>property"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
                 Property View</a>
             </li>
-           
+
 
           </ul>
         </li>
 
         <li class="dropdown">
           <a href="javascript:void(0)">
-          <iconify-icon icon="material-symbols:map-outline" class="menu-icon"></iconify-icon>
+            <iconify-icon icon="material-symbols:map-outline" class="menu-icon"></iconify-icon>
             <span>Services</span>
           </a>
           <ul class="sidebar-submenu">
-           
+
             <li>
               <a href="<?= base_url(); ?>add-service">
                 <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
@@ -124,14 +124,14 @@
             </li>
             <li>
               <a href="<?= base_url(); ?>team-work-update"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-              Work Updates</a>
+                Work Updates</a>
             </li>
             <!-- <li>
               <a href="invoice-add.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>Task Overview</a>
             </li> -->
-           
+
           </ul>
-        </li> 
+        </li>
 
         <li class="dropdown">
           <a href="javascript:void(0)">
@@ -144,14 +144,26 @@
             </li>
             <li>
               <a href="<?= base_url(); ?>shareholder-master"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-              Shareholder Master</a>
+                Shareholder Master</a>
             </li>
-            <li>
-              <a href="<?= base_url(); ?>share-transactions"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>Share Transactions</a>
+            <li class="dropdown">
+              <a href="javascript:void(0)"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>Share Transactions</a>
+              <ul class="sidebar-submenu">
+                <li>
+                  <a href="<?= base_url(); ?>share-transactions"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Share Purchase</a>
+                </li>
+                <li>
+                  <a href="<?= base_url(); ?>shareholder-master"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+                    Share Sale</a>
+                </li>
+              
+
+              </ul>
+
             </li>
-           
+
           </ul>
-        </li> 
+        </li>
         <!-- 
         
 
@@ -186,7 +198,7 @@
             <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
             <span>Leadership Board Members</span>
           </a>
-          
+
         </li>
         <!-- 
 

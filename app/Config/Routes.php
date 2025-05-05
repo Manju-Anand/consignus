@@ -42,7 +42,6 @@ $routes->get('/edit-property/(:num)', 'PropertyController::editproperty/$1');
 $routes->post('/property/delete-image/(:num)', 'PropertyController::deleteImage/$1');
 $routes->post('propertyedit-form', 'PropertyController::updateproperty'); 
 $routes->get('/delete-property/(:num)', 'PropertyController::deleteproperty/$1');
-
 $routes->post('get-property-details', 'PropertyController::getPropertyDetails');
 
 
