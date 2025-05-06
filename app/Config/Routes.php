@@ -81,9 +81,21 @@ $routes->post('/valuation/saveAll', 'ShareController::saveAll');
 
 $routes->get('/shareholder-master', 'ShareController::shareholdermaster');
 $routes->post('/shareholder-master/save', 'ShareController::saveshareholder');
-$routes->get('/share-transactions', 'ShareController::sharetransactions');
+
+$routes->get('/share-purchase-list', 'ShareController::sharepurchaselist');
+$routes->get('/share-purchase', 'ShareController::sharepurchase');
 $routes->get('/share-transactions/available-shares/(:segment)', 'ShareController::availableShares/$1');
 $routes->post('/share-transactions/save', 'ShareController::saveShareTransaction');
+$routes->get('/edit-purchaselist/(:num)', 'ShareController::editpurchase/$1');
+$routes->post('share-transactions/edit', 'ShareController::updatepurchase'); 
+$routes->get('/delete-purchaselist/(:num)', 'ShareController::deletepurchase/$1');
+
+$routes->get('/share-sale-list', 'ShareController::sharesaleslist');
+$routes->get('/share-sale', 'ShareController::sharesale');
+$routes->get('/share-sale/face-value/(:segment)', 'ShareController::faceValue/$1');
+
+
+
 
 
 // $routes->get('/site-visit', 'SitevisitController::index');

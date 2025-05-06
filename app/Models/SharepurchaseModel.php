@@ -4,15 +4,26 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ShareholderMasterModel extends Model
+class SharepurchaseModel extends Model
 {
-    protected $table            = 'shareholder_master';
+    protected $table            = 'share_purchase';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'type', 'no_of_shares', 'face_value', 'created_at', 'updated_at'];
+    protected $allowedFields    = [
+        'id',
+        'shareholder_type',
+        'member_name',
+        'amount_invested',
+        'shares_allocated',
+        'transaction_date',
+        'created_at',
+        'memberPhoneno',
+        'memberEmail',
+        'modified_at'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -44,26 +55,15 @@ class ShareholderMasterModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getSharesOwnedByType($type)
+
+    public function getAvailableShares($type)
     {
-        // Get the master record by type
-        $master = $this->where('type', $type)->first();
-    
-        if (!$master) {
-            return null;
-        }
-    
-        // Get allocated shares (from ShareTransactionModel)
-        $shareTransactionModel = new \App\Models\SharepurchaseModel();
-        $sold = $shareTransactionModel->where('shareholder_type', $type)->selectSum('shares_allocated')->first();
-        $allocated = $sold['shares_allocated'] ?? 0;
-    
-        return [
-            'face_value' => $master['face_value'],
-            'total_shares' => $master['no_of_shares'],
-            'allocated_shares' => $allocated,
-            'remaining_shares' => $master['no_of_shares'] - $allocated
-        ];
+        $master = $this->db->table('shareholder_master')->where('type', $type)->get()->getRowArray();
+        $sold = $this->db->table('share_purchase')
+            ->selectSum('shares_allocated')
+            ->where('shareholder_type', $type)
+            ->get()->getRowArray();
+
+        return $master['no_of_shares'] - ($sold['shares_allocated'] ?? 0);
     }
-    
 }

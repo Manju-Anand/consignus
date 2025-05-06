@@ -28,8 +28,8 @@ class Home extends BaseController
        
         // print_r($userdata);
         $data = [
-            "meta_title" => "ArchFlow - Smart CRM Software for Architecture Firms",
-            "meta_description" => "ArchFlow is a powerful CRM software designed for architecture firms to manage enquiries, site visits, quotations, 3D plans, revisions, and payments efficiently. Streamline your workflow with ArchFlow today!",
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
             "userdata" => $userdata,
         ];
         return view('homeview',$data);

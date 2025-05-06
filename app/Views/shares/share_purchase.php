@@ -14,7 +14,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <h5 class="card-title mb-0">Share Transactions</h5>
+                    <h5 class="card-title mb-0">Share Purchase</h5>
 
 
                 </div>

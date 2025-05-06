@@ -4,15 +4,28 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ShareholderMasterModel extends Model
+class SharesaleModel extends Model
 {
-    protected $table            = 'shareholder_master';
+    protected $table            = 'share_sales';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'type', 'no_of_shares', 'face_value', 'created_at', 'updated_at'];
+    protected $allowedFields    = [
+        'id',
+        'shareholder_name',
+        'shareholder_type',
+        'phone_number',
+        'email',
+        'shares_sold',
+        'sale_amount',
+        'sale_policy',
+        'sold_to',
+        'transaction_date',
+        'remarks',
+        'created_at'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,27 +56,4 @@ class ShareholderMasterModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getSharesOwnedByType($type)
-    {
-        // Get the master record by type
-        $master = $this->where('type', $type)->first();
-    
-        if (!$master) {
-            return null;
-        }
-    
-        // Get allocated shares (from ShareTransactionModel)
-        $shareTransactionModel = new \App\Models\SharepurchaseModel();
-        $sold = $shareTransactionModel->where('shareholder_type', $type)->selectSum('shares_allocated')->first();
-        $allocated = $sold['shares_allocated'] ?? 0;
-    
-        return [
-            'face_value' => $master['face_value'],
-            'total_shares' => $master['no_of_shares'],
-            'allocated_shares' => $allocated,
-            'remaining_shares' => $master['no_of_shares'] - $allocated
-        ];
-    }
-    
 }

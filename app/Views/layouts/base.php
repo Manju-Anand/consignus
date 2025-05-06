@@ -41,6 +41,10 @@
   <link rel="stylesheet" href="<?= base_url(); ?>public/assets/css/style.css">
   <!-- Include this in the <head> or before your script -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Include in your <head> or just before </body> -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <?= $this->renderSection('styles') ?>
 </head>
 
@@ -136,30 +140,14 @@
         <li class="dropdown">
           <a href="javascript:void(0)">
             <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
-            <span>Shares</span>
+            <span>Shares Transactions</span>
           </a>
           <ul class="sidebar-submenu">
-            <li>
-              <a href="<?= base_url(); ?>company-valuation"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Company Valuation</a>
+            <li> <a href="<?= base_url(); ?>share-purchase-list"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Share Purchase</a>
             </li>
             <li>
-              <a href="<?= base_url(); ?>shareholder-master"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Shareholder Master</a>
-            </li>
-            <li class="dropdown">
-              <a href="javascript:void(0)"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>Share Transactions</a>
-              <ul class="sidebar-submenu">
-                <li>
-                  <a href="<?= base_url(); ?>share-transactions"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Share Purchase</a>
-                </li>
-                <li>
-                  <a href="<?= base_url(); ?>shareholder-master"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                    Share Sale</a>
-                </li>
-              
-
-              </ul>
-
+              <a href="<?= base_url(); ?>share-sale-list"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+                Share Sale</a>
             </li>
 
           </ul>
@@ -178,6 +166,24 @@
 
 
         <li class="sidebar-menu-group-title">Masters</li>
+
+        <li class="dropdown">
+          <a href="javascript:void(0)">
+            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
+            <span>Shares Masters</span>
+          </a>
+          <ul class="sidebar-submenu">
+            <li>
+              <a href="<?= base_url(); ?>company-valuation"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Company Valuation</a>
+            </li>
+            <li>
+              <a href="<?= base_url(); ?>shareholder-master"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+                Shareholder Master</a>
+            </li>
+
+
+          </ul>
+        </li>
 
         <li>
           <a href="<?= base_url(); ?>staff">

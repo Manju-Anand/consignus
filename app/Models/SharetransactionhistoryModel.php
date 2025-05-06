@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class SharetransactionsModel extends Model
+class SharetransactionhistoryModel extends Model
 {
-    protected $table            = 'share_transactions';
+    protected $table            = 'share_transaction_history';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -14,15 +14,19 @@ class SharetransactionsModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id',
+        'shareholder_name',
         'shareholder_type',
-        'member_name',
-        'amount_invested',
-        'shares_allocated',
+        'transaction_type',
+        'shares',
+        'amount',
+        'policy',
         'transaction_date',
+        'related_party',
+        'remarks',
         'created_at',
-        'memberPhoneno',
-        'memberEmail'
+        'transaction_id'
     ];
+
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -53,16 +57,4 @@ class SharetransactionsModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-
-    public function getAvailableShares($type)
-    {
-        $master = $this->db->table('shareholder_master')->where('type', $type)->get()->getRowArray();
-        $sold = $this->db->table('share_transactions')
-            ->selectSum('shares_allocated')
-            ->where('shareholder_type', $type)
-            ->get()->getRowArray();
-
-        return $master['no_of_shares'] - ($sold['shares_allocated'] ?? 0);
-    }
 }
