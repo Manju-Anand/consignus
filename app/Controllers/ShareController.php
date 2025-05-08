@@ -122,7 +122,7 @@ class ShareController extends BaseController
             "meta_description" => "Consignus",
             "purchaselist" => $purchaselist,
         ];
-        $this->logData('info', 'shares Data array', $data);
+        // $this->logData('info', 'shares Data array', $data);
         return $this->renderView('shares/sharepurchaselist', $data);
     }
 
@@ -138,7 +138,7 @@ class ShareController extends BaseController
             "meta_description" => "Consignus",
             // "sharemasters" => $sharemasters,
         ];
-        $this->logData('info', 'shares Data array', $data);
+        // $this->logData('info', 'shares Data array', $data);
         return $this->renderView('shares/share_purchase', $data);
     }
 
@@ -330,16 +330,191 @@ class ShareController extends BaseController
         // log_message('info', 'This is a custom info log message.');
         $shareholderModel = new \App\Models\ShareholderMasterModel();
         $data = $shareholderModel->getSharesOwnedByType($type);
-       
+
         if ($data === null) {
             return $this->response->setJSON(['error' => 'Invalid shareholder type.']);
         }
-    
+
         return $this->response->setJSON([
             'face_value'      => $data['face_value'],
             'shares_owned'    => $data['allocated_shares'],
-            'remaining_shares'=> $data['remaining_shares']
+            'remaining_shares' => $data['remaining_shares']
         ]);
     }
-    
+
+    public function getShareholders($type)
+    {
+        $shareholders = $this->sharepurchasemodel
+            ->where('shareholder_type', $type)
+            //->groupBy('member_name')
+            ->select('member_name, memberPhoneno, memberEmail, id, shares_allocated')
+            ->findAll();
+
+        return $this->response->setJSON($shareholders);
+    }
+
+    public function saveSharesales()
+    {
+        $data = $this->request->getPost();
+
+        // Validate inputs
+        if (
+            empty($data['shareholder_name']) || empty($data['shareholder_phone']) || empty($data['shareholder_email']) ||
+            empty($data['no_of_shares']) || empty($data['face_value']) || empty($data['saleamount'])
+        ) {
+            return redirect()->back()->with('error', 'All fields are required.');
+        }
+
+        $policy = $data['policy'];
+        if ($policy == "buy_back") {
+            $invester = "Company";
+        } else {
+            $invester = $data['investors'];
+        }
+
+        // Save purchase
+        $saveData = [
+            'shareholder_name'   => $data['shareholder_name'],
+            'shareholder_type'   => $data['shareholder_type'],
+            'phone_number'   => $data['shareholder_phone'],
+            'email'   => $data['shareholder_email'],
+
+            'shares_sold'    => $data['no_of_shares'],
+            'sale_amount'   => $data['saleamount'],
+            'sale_policy'    => $data['policy'],
+            'sold_to'   => $invester,
+
+            'remarks'   => $data['remarks'],
+            'transaction_date'   => date('Y-m-d'),
+            'created_at'         => date('Y-m-d H:i:s'),
+            'purchaseid' => $data['shareholder_id'],
+
+        ];
+        $this->logData('info', 'Data array', $saveData);
+        $this->sharesalemodel->save($saveData);
+        $saleid = $this->sharesalemodel->insertID();
+
+        $historydata = [
+            'shareholder_name'   => $data['shareholder_name'],
+            'shareholder_type'   => $data['shareholder_type'],
+            'transaction_type'   => "sale",
+            'shares'   => $data['no_of_shares'],
+            'amount'    => $data['saleamount'],
+            'policy'   => $data['policy'],
+            'related_party' => $invester,
+            'transaction_date'   => date('Y-m-d'),
+            'created_at'         => date('Y-m-d H:i:s'),
+            'transaction_id' => $saleid,
+            'purchaseid' => $data['shareholder_id'],
+        ];
+
+        $this->sharetransactionhistorymodel->insert($historydata);
+
+
+        // return redirect()->back()->with('success', 'Share purchase saved successfully.');
+        return redirect()->to('/share-sale-list')->with('success', 'Share Sale Saved successfully.');
+    }
+
+
+    public function getShareholderBalance($purchaseId)
+    {
+        $db = \Config\Database::connect();
+
+        // Get allocated shares from purchase table
+        $purchase = $db->table('share_purchase')
+            ->select('shares_allocated')
+            ->where('id', $purchaseId)
+            ->get()
+            ->getRow();
+
+        // Get total sold shares from sales table
+        $sold = $db->table('share_sales')
+            ->selectSum('shares_sold')
+            ->where('purchaseid', $purchaseId)
+            ->get()
+            ->getRow();
+
+        $allocated = $purchase ? (int)$purchase->shares_allocated : 0;
+        $soldShares = $sold && $sold->shares_sold ? (int)$sold->shares_sold : 0;
+        $netShares = $allocated - $soldShares;
+
+        return $this->response->setJSON([
+            'allocated' => $allocated,
+            'sold' => $soldShares,
+            'net' => $netShares
+        ]);
+    }
+
+    public function deletesale($aid)
+    {
+        // First, delete from the main share purchase model
+        $result = $this->sharesalemodel->delete($aid);
+
+        if ($result) {
+            // Then delete from the transaction history table
+            $this->sharetransactionhistorymodel->where('transaction_id', $aid)->delete();
+
+            return redirect()->to('/share-sales-list')->with('success', 'Sales and history deleted successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Failed to delete record.');
+    }
+
+    public function shareSummary($id)
+    {
+
+        // Load models
+        $purchase = $this->sharepurchasemodel->where('id', $id)->first();
+
+        if (!$purchase) {
+            return $this->response->setJSON(['error' => 'Purchase not found']);
+        }
+       
+        log_message('info', "purchased shares : " . $purchase['shares_allocated']);
+
+        $sharetype = $purchase['shareholder_type'];
+        $totalpurshares = $this->sharepurchasemodel
+        ->selectSum('shares_allocated')
+        ->where('shareholder_type', $sharetype)
+        ->first();
+        log_message('info', "total purchased shares based on type : " . $totalpurshares['shares_allocated']);
+
+
+        // Get shares already sold
+        $sold = $this->sharesalemodel
+            ->selectSum('shares_sold')
+            ->where('purchaseid', $id)
+            ->first();
+
+        log_message('info', "sell shares: " . $sold['shares_sold'] ?? 0);
+        $totalsales = $this->sharesalemodel
+        ->selectSum('shares_sold')
+        ->where('shareholder_type', $sharetype)
+        ->first();
+        log_message('info', "total saled shares based on type : " . $totalsales['shares_sold']);
+
+
+
+
+        $ownedShares = ($purchase['shares_allocated'] ?? 0) - ($sold['shares_sold'] ?? 0);
+        log_message('info', "shares : " . $ownedShares);
+        // Get face value based on shareholder type
+        $shareholderType = $purchase['shareholder_type'];
+
+        $shareholderMaster = $this->shareholdermastermodel
+            ->where('type', $shareholderType)
+            ->get()
+            ->getRowArray();
+
+        $faceValue = $shareholderMaster['face_value'] ?? 0;
+
+        $availableShares =($shareholderMaster['no_of_shares'] ?? 0) - (($totalpurshares['shares_allocated'] ?? 0) - ($totalsales['shares_sold'] ?? 0));
+        log_message('info', "faceValue : " . $faceValue);
+        log_message('info', "availableShares : " . $availableShares);
+        return $this->response->setJSON([
+            'face_value' => $faceValue,
+            'owned_shares' => $ownedShares,
+            'available_shares' => $availableShares,
+        ]);
+    }
 }

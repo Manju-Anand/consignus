@@ -97,9 +97,16 @@
                                     <td><?= esc($purchaselist['transaction_date']) ?></td>
 
                                     <td>
-                                        <a href="javascript:void(0)" data-id="<?= $purchaselist['id']; ?>" title="View purchaselist"
-                                            class="view-staff-btn w-32-px h-32-px bg-primary-light text-primary-800 rounded-circle d-inline-flex align-items-center justify-content-center">
-                                            <iconify-icon icon="iconamoon:eye-light"></iconify-icon>
+                                        <a href="javascript:void(0)" data-id="<?= $purchaselist['id']; ?>" title="Add Shares"
+                                            data-id="<?= $purchaselist['id'] ?>"
+                                            data-name="<?= $purchaselist['member_name'] ?>"
+                                            data-type="<?= $purchaselist['shareholder_type'] ?>"
+                                            class="add-shares-btn w-32-px h-32-px bg-primary-light text-primary-800 rounded-circle d-inline-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="mdi:database-plus"></iconify-icon>
+
+
+
+
                                         </a>
                                         <a href="<?= base_url('edit-purchaselist/' . $purchaselist['id']) ?>" title="Edit purchaselist Details"
                                             class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
@@ -128,25 +135,56 @@
 
 
 <!-- Add Task Modal -->
-<div class="modal fade" id="viewstaffModal" tabindex="-1" aria-labelledby="viewstaffModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title text-xl mb-0" id="viewstaffModalLabel">Customers View</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="staffDetailsContent">
+<!-- Modal -->
+<div class="modal fade" id="addSharesModal" tabindex="-1" aria-labelledby="addSharesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="topUpShareForm" method="post" action="<?= base_url('share-transactions/add-shares') ?>">
+            <input type="hidden" name="shareholder_id" id="modalShareholderId">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSharesModalLabel">Add Shares</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-            </div>
-            <div class="modal-footer justify-content-center gap-3">
-                <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-50 py-11 radius-8" data-bs-dismiss="modal">
-                    Cancel
-                </button>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label>Name:</label>
+                        <input type="text" id="modalName" class="form-control" readonly>
+                    </div>
+                    <div class="mb-2">
+                        <label>Shareholder Type:</label>
+                        <input type="text" id="modalType" class="form-control" readonly>
+                    </div>
+                    <div class="mb-2">
+                        <label>Shares to Add:</label>
+                        <input type="number" min="1" id="modalSharesInput" name="shares_to_add" class="form-control" required>
+                    </div>
+                    <div>
+                        <span class="text-danger fw-bold blink-text" id="modalAvailableShares"></span><br>
+                        <span id="modalCurrentShares"></span><br>
+                        <span id="modalNewTotalValue"></span>
+                    </div>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Add Shares</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
+
+<style>
+    .blink-text {
+        animation: blink 1s step-start 0s infinite;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+</style>
 
 
 
@@ -165,26 +203,63 @@
 
 
 
-    $(document).on('click', '.view-staff-btn', function() {
-        var staffId = $(this).data('id');
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = new bootstrap.Modal(document.getElementById('addSharesModal'));
+        const addButtons = document.querySelectorAll('.add-shares-btn');
 
-        $('#staffDetailsContent').html('<p>Loading...</p>');
-        $('#viewstaffModal').modal('show');
+        const nameInput = document.getElementById('modalName');
+        const typeInput = document.getElementById('modalType');
+        const idInput = document.getElementById('modalShareholderId');
+        const sharesInput = document.getElementById('modalSharesInput');
+        const availableLabel = document.getElementById('modalAvailableShares');
+        const currentSharesLabel = document.getElementById('modalCurrentShares');
+        const totalValueLabel = document.getElementById('modalNewTotalValue');
 
-        $.ajax({
-            url: "<?= base_url('customers/viewDetails') ?>",
-            method: "POST",
-            data: {
-                id: staffId
-            },
-            success: function(viewHtml) {
-                $('#staffDetailsContent').html(viewHtml);
-                // var viewstaffModal = new bootstrap.Modal(document.getElementById('viewstaffModal'));
-                // viewstaffModal.show();
-            },
-            error: function() {
-                $('#staffDetailsContent').html('<p>Unable to load purchaselist details.</p>');
+        let faceValue = 25;
+        let availableShares = 0;
+        let currentShares = 0;
+
+        addButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const type = this.getAttribute('data-type');
+// alert (id);
+                nameInput.value = name;
+                typeInput.value = type;
+                idInput.value = id;
+
+                // Fetch data via AJAX
+                fetch(`<?= base_url('share-transactions/share-summary') ?>/${id}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        faceValue = data.face_value;
+                        availableShares = data.available_shares;
+                        currentShares = data.owned_shares;
+
+                        availableLabel.innerText = `Available Shares: ${availableShares}`;
+                        currentSharesLabel.innerText = `Current Shares: ${currentShares}`;
+                        totalValueLabel.innerText = '';
+                        sharesInput.value = '';
+                    });
+
+                modal.show();
+            });
+        });
+
+        sharesInput.addEventListener('input', function() {
+            const newShares = parseInt(this.value) || 0;
+
+            if (newShares > availableShares) {
+                availableLabel.innerText = `Only ${availableShares} shares are available!`;
+                this.value = availableShares;
+            } else {
+                availableLabel.innerText = `Available Shares: ${availableShares}`;
             }
+
+            const totalShares = currentShares + newShares;
+            const totalValue = totalShares * faceValue;
+            totalValueLabel.innerText = `Total Shares After Purchase: ${totalShares}, Total Value: ₹${totalValue}`;
         });
     });
 </script>

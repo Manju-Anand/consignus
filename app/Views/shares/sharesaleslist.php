@@ -102,14 +102,14 @@
                          
 
                                     <td>
-                                        <a href="javascript:void(0)" data-id="<?= $saleslist['id']; ?>" title="View saleslist"
+                                        <!-- <a href="javascript:void(0)" data-id="<?= $saleslist['id']; ?>" title="View saleslist"
                                             class="view-staff-btn w-32-px h-32-px bg-primary-light text-primary-800 rounded-circle d-inline-flex align-items-center justify-content-center">
                                             <iconify-icon icon="iconamoon:eye-light"></iconify-icon>
-                                        </a>
-                                        <a href="<?= base_url('edit-saleslist/' . $saleslist['id']) ?>" title="Edit saleslist Details"
+                                        </a> -->
+                                        <!-- <a href="<?= base_url('edit-saleslist/' . $saleslist['id']) ?>" title="Edit saleslist Details"
                                             class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
                                             <iconify-icon icon="lucide:edit"></iconify-icon>
-                                        </a>
+                                        </a> -->
 
                                         <a href="javascript:void(0);" onclick="confirmDelete(<?= $saleslist['id']; ?>)" title="Delete saleslist"
                                             class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">

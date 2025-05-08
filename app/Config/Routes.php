@@ -93,8 +93,11 @@ $routes->get('/delete-purchaselist/(:num)', 'ShareController::deletepurchase/$1'
 $routes->get('/share-sale-list', 'ShareController::sharesaleslist');
 $routes->get('/share-sale', 'ShareController::sharesale');
 $routes->get('/share-sale/face-value/(:segment)', 'ShareController::faceValue/$1');
-
-
+$routes->get('share-sale/get-shareholders/(:any)', 'ShareController::getShareholders/$1');
+$routes->post('/share-sale/save', 'ShareController::saveSharesales');
+$routes->get('totalshare/getShareholderBalance/(:num)', 'ShareController::getShareholderBalance/$1');
+$routes->get('/delete-saleslist/(:num)', 'ShareController::deletesale/$1');
+$routes->get('/share-transactions/share-summary/(:num)', 'ShareController::shareSummary/$1');
 
 
 

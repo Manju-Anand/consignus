@@ -24,7 +24,8 @@ class SharetransactionhistoryModel extends Model
         'related_party',
         'remarks',
         'created_at',
-        'transaction_id'
+        'transaction_id',
+        'purchaseid'
     ];
 
 
