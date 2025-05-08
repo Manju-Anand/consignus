@@ -517,4 +517,45 @@ class ShareController extends BaseController
             'available_shares' => $availableShares,
         ]);
     }
+
+    public function savenewaddedShares()
+    {
+        $data = $this->request->getPost();
+
+        // Validate inputs
+        if ( empty($data['shares_to_add']) ) {
+            return redirect()->back()->with('error', 'All fields are required.');
+        }
+
+        $spid = $data['shareholder_id'];
+        $sharespurchased = $data['shares_to_add'];
+        $amtinvested = $data['amount_invested'];
+        $sharetype = $data['shareholder_type'];
+        $shareholder_name = $data['shareholder_name'];
+        $totalsharespurchased = $data['total_shares_purcased'];
+        $totalamtinvested = $data['total_amount_invested'];
+        
+        $this->sharepurchasemodel->update($spid, [
+            'amount_invested' => $totalamtinvested,
+            'shares_allocated' => $totalsharespurchased,
+        ]);
+
+        $historydata = [
+            'shareholder_name'   => $shareholder_name,
+            'shareholder_type'   => $sharetype,
+            'transaction_type'   => "purchase",
+            'shares'   => $sharespurchased,
+            'amount'    => $amtinvested,
+            'policy'   => "Added_Shares",
+            'transaction_date'   => date('Y-m-d'),
+            'created_at'         => date('Y-m-d H:i:s'),
+            'transaction_id' => $spid,
+        ];
+
+        $this->sharetransactionhistorymodel->insert($historydata);
+
+
+        // return redirect()->back()->with('success', 'Share purchase saved successfully.');
+        return redirect()->to('/share-purchase-list')->with('success', 'Share purchase saved successfully.');
+    }
 }

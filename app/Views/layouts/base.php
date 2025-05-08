@@ -152,6 +152,21 @@
 
           </ul>
         </li>
+        <li class="dropdown">
+          <a href="javascript:void(0)">
+            <iconify-icon icon="hugeicons:money-send-square" class="menu-icon"></iconify-icon>
+            <span>Account Transactions</span>
+          </a>
+          <ul class="sidebar-submenu">
+            <li> <a href="<?= base_url(); ?>transactions-list"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Transactions</a>
+            </li>
+            <li>
+              <a href="<?= base_url(); ?>"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+                Share Sale</a>
+            </li>
+
+          </ul>
+        </li>
         <!-- 
         
 
@@ -166,6 +181,22 @@
 
 
         <li class="sidebar-menu-group-title">Masters</li>
+        <li class="dropdown">
+          <a href="javascript:void(0)">
+            <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
+            <span>Accounts</span>
+          </a>
+          <ul class="sidebar-submenu">
+            <li>
+              <a href="<?= base_url(); ?>account-heads"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Account Head</a>
+            </li>
+            <li>
+              <a href="<?= base_url(); ?>payment-modes"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Payment Modes</a>
+            </li>
+
+          </ul>
+        </li>
+
 
         <li class="dropdown">
           <a href="javascript:void(0)">
@@ -206,104 +237,7 @@
           </a>
 
         </li>
-        <!-- 
 
-       
-        <li >
-          <a href="<?= base_url(); ?>fees">
-            <iconify-icon icon="mingcute:storage-line" class="menu-icon"></iconify-icon>
-            <span>Fees</span>
-          </a>
-          
-        </li> -->
-        <!-- <li >
-          <a href="<?= base_url(); ?>packages">
-            <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
-            <span>Packages</span>
-          </a>
-         
-        </li> -->
-        <!-- 
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
-            <span>Chart</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="line-chart.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Line
-                Chart</a>
-            </li>
-            <li>
-              <a href="column-chart.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Column
-                Chart</a>
-            </li>
-            <li>
-              <a href="pie-chart.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Pie Chart</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="widgets.html">
-            <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-            <span>Widgets</span>
-          </a>
-        </li>
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-            <span>Users</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users
-                List</a>
-            </li>
-            <li>
-              <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users
-                Grid</a>
-            </li>
-            <li>
-              <a href="add-user.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
-            </li>
-            <li>
-              <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> View
-                Profile</a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <i class="ri-user-settings-line text-xl me-14 d-flex w-auto"></i>
-            <span>Role & Access</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="role-access.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Role &
-                Access</a>
-            </li>
-            <li>
-              <a href="assign-role.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Assign
-                Role</a>
-            </li>
-          </ul>
-        </li> -->
-        <!-- ******************************************************************* -->
-
-        <li class="sidebar-menu-group-title">Quotation Download</li>
-        <!-- <li>
-          <a href="<?= site_url('download-bill'); ?>">
-            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
-            <span>Using-dompdf</span>
-          </a>
-        </li>
-        <li>
-          <a href="<?= site_url('generate-pdf'); ?>">
-            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
-            <span>Using-mpdf</span>
-          </a>
-        </li> -->
 
 
 

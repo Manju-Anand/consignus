@@ -137,9 +137,9 @@
 <!-- Add Task Modal -->
 <!-- Modal -->
 <div class="modal fade" id="addSharesModal" tabindex="-1" aria-labelledby="addSharesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <form id="topUpShareForm" method="post" action="<?= base_url('share-transactions/add-shares') ?>">
-            <input type="hidden" name="shareholder_id" id="modalShareholderId">
+
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addSharesModalLabel">Add Shares</h5>
@@ -147,22 +147,54 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <label>Name:</label>
-                        <input type="text" id="modalName" class="form-control" readonly>
+                    <input type="hidden" name="shareholder_id" id="modalShareholderId" value="">
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <label>Name:</label>
+                            <input type="text" id="modalName" name="shareholder_name" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>Shareholder Type:</label>
+                            <input type="text" id="modalType" name="shareholder_type" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>Face Value of Share:</label>
+                            <input type="text" id="modalfv" class="form-control" readonly>
+                        </div>
+
                     </div>
-                    <div class="mb-2">
-                        <label>Shareholder Type:</label>
-                        <input type="text" id="modalType" class="form-control" readonly>
+                    <br>
+                    <div class="alert alert-info d-flex align-items-center p-2 rounded-3 shadow-sm mt-2" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <span class="fw-semibold">Tip:</span>&nbsp; Add either&nbsp;&nbsp; <strong>No. of Shares</strong>&nbsp; or &nbsp;<strong>Amount Invested</strong>&nbsp;&nbsp; to see the calculation details.
                     </div>
-                    <div class="mb-2">
-                        <label>Shares to Add:</label>
-                        <input type="number" min="1" id="modalSharesInput" name="shares_to_add" class="form-control" required>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label>Shares to Add:</label>
+                            <input type="number" min="1" id="modalSharesInput" name="shares_to_add" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label>Amount Invested:</label>
+                            <input type="number" min="1" id="modalamountinvested" name="amount_invested" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label>Total Shares Purchased:</label>
+                            <input type="number" min="1" id="modaltotalSharesInput" name="total_shares_purcased" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label>Total Amount Invested:</label>
+                            <input type="number" min="1" id="modaltotalamountinvested" name="total_amount_invested" class="form-control" readonly>
+                        </div>
+
                     </div>
+
                     <div>
                         <span class="text-danger fw-bold blink-text" id="modalAvailableShares"></span><br>
                         <span id="modalCurrentShares"></span><br>
                         <span id="modalNewTotalValue"></span>
+                        <span id="modalNewFaceValue"></span>
+
                     </div>
                 </div>
 
@@ -209,11 +241,19 @@
 
         const nameInput = document.getElementById('modalName');
         const typeInput = document.getElementById('modalType');
+        const fvInput = document.getElementById('modalfv');
+
         const idInput = document.getElementById('modalShareholderId');
         const sharesInput = document.getElementById('modalSharesInput');
+        const amountinvested = document.getElementById('modalamountinvested');
+
+        const totalsharesInput = document.getElementById('modaltotalSharesInput');
+        const totalamountinvested = document.getElementById('modaltotalamountinvested');
+
         const availableLabel = document.getElementById('modalAvailableShares');
         const currentSharesLabel = document.getElementById('modalCurrentShares');
         const totalValueLabel = document.getElementById('modalNewTotalValue');
+        const faceValueLabel = document.getElementById('modalNewFaceValue');
 
         let faceValue = 25;
         let availableShares = 0;
@@ -224,7 +264,7 @@
                 const id = this.getAttribute('data-id');
                 const name = this.getAttribute('data-name');
                 const type = this.getAttribute('data-type');
-// alert (id);
+                // alert (id);
                 nameInput.value = name;
                 typeInput.value = type;
                 idInput.value = id;
@@ -237,10 +277,15 @@
                         availableShares = data.available_shares;
                         currentShares = data.owned_shares;
 
+                        fvInput.value = faceValue;
+
                         availableLabel.innerText = `Available Shares: ${availableShares}`;
                         currentSharesLabel.innerText = `Current Shares: ${currentShares}`;
                         totalValueLabel.innerText = '';
                         sharesInput.value = '';
+                        amountinvested.value = '';
+                        totalsharesInput.value = '';
+                        totalamountinvested.value = '';
                     });
 
                 modal.show();
@@ -259,8 +304,37 @@
 
             const totalShares = currentShares + newShares;
             const totalValue = totalShares * faceValue;
+            const amountInvested = newShares * faceValue;
+            amountinvested.value = amountInvested;
+
+            totalsharesInput.value = totalShares;
+            totalamountinvested.value = totalValue;
+
             totalValueLabel.innerText = `Total Shares After Purchase: ${totalShares}, Total Value: ₹${totalValue}`;
+
         });
+
+        amountinvested.addEventListener('input', function() {
+            calculateShares();
+        });
+
+        function calculateShares() {
+            const amount = parseFloat(amountinvested.value);
+            const faceValue = parseFloat(fvInput.value);
+            if (isNaN(amount) || faceValue <= 0) return;
+
+            let eligibleShares = Math.floor(amount / faceValue);
+            sharesInput.value = eligibleShares;
+
+            const totalShares = currentShares + eligibleShares;
+            const totalValue = totalShares * faceValue;
+
+            totalsharesInput.value = totalShares;
+            totalamountinvested.value = totalValue;
+
+            totalValueLabel.innerText = `Total Shares After Purchase: ${totalShares}, Total Value: ₹${totalValue}`;
+
+        }
     });
 </script>
 

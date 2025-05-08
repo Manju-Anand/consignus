@@ -98,48 +98,21 @@ $routes->post('/share-sale/save', 'ShareController::saveSharesales');
 $routes->get('totalshare/getShareholderBalance/(:num)', 'ShareController::getShareholderBalance/$1');
 $routes->get('/delete-saleslist/(:num)', 'ShareController::deletesale/$1');
 $routes->get('/share-transactions/share-summary/(:num)', 'ShareController::shareSummary/$1');
+$routes->post('share-transactions/add-shares', 'ShareController::savenewaddedShares');
 
+$routes->get('/account-heads', 'AccountheadsController::index');
+$routes->post('/accounting/add-head', 'AccountheadsController::saveaccountheads');
+$routes->get('/delete-accountheads/(:num)', 'AccountheadsController::deleteaccounthead/$1');
+$routes->post('/accounting/edit-head', 'AccountheadsController::updateaccountheads');
 
+$routes->get('/payment-modes', 'AccountheadsController::paymentmodes');
+$routes->post('accounting/save-payment-mode', 'AccountheadsController::savepaymentmodes');
+$routes->get('/delete-paymentmode/(:num)', 'AccountheadsController::deletepaymentmodes/$1');
+$routes->post('/accounting/edit-payment-mode', 'AccountheadsController::updatepaymentmodes');
 
-// $routes->get('/site-visit', 'SitevisitController::index');
-
-// $routes->post('sitevisit/save', 'SitevisitController::saveTask');
-// $routes->post('update-sitevisit', 'SitevisitController::updateSiteVisit');
-// $routes->get('/delete-sitevisit/(:num)', 'SitevisitController::deleteSiteVisit');
-
-// $routes->get('/download-bill', 'BillController::downloadBill');
-// $routes->get('generate-pdf', 'BillController::generatePDF');
-
-// $routes->get('/decisions', 'DecisionController::index');
-// $routes->get('/add-decision', 'DecisionController::decisionAdd');
-// $routes->post('decision-form', 'DecisionController::saveDecision');
-// $routes->get('/edit-decision/(:num)', 'DecisionController::editdecision/$1');
-// $routes->post('decision/updatedecision/(:num)', 'DecisionController::updateDecision/$1');
-// $routes->get('/delete-decision/(:num)', 'DecisionController::deletedecision/$1');
-// $routes->post('decisions/getEnquiryDetails', 'DecisionController::getEnquiryDetails');
-
-// $routes->get('/quotations', 'QuotationController::index');
-// $routes->get('/add-quotation', 'QuotationController::quotationAdd');
-// $routes->post('save-content', 'QuotationController::saveContent');
-// $routes->get('/edit-quotation/(:num)', 'QuotationController::editquotation/$1'); 
-// $routes->post('update-content', 'QuotationController::updatequotation');
-// $routes->get('/delete-quotation/(:num)', 'QuotationController::deletequotation/$1');
-// $routes->get('/preview-quotation/(:num)', 'QuotationController::previewQuotation/$1');
-// // $routes->get('downloadPDF/(:num)', 'QuotationController::generatePDF/$1');
-// $routes->get('downloadPDF/(:num)', 'QuotationController::generatePDF/$1');
-// // $routes->post('quotations/generate_pdf', 'QuotationController::downloadPDF');
-// $routes->post('quotations/generate_pdf', 'QuotationController::downloadPDF');
-
-// $routes->get('/stages', 'StageController::index');
-// $routes->post('stages/save', 'StageController::saveTask');
-// $routes->post('update-stages', 'StageController::updateStage');
-// $routes->get('/delete-stages/(:num)', 'StageController::deleteStage/$1');
-
-// $routes->get('/fees', 'FeeController::index');
-// $routes->post('fees-save', 'FeeController::saveTask');
-// $routes->post('update-fees', 'FeeController::updateFees');
-// $routes->get('/delete-fees/(:num)', 'FeeController::deleteFees/$1');
-
-
-// $routes->get('/packages', 'PackageController::index');
-// $routes->post('packages-save', 'PackageController::saveTask');
+$routes->get('/transactions-list', 'TransactionController::index');
+$routes->get('/add-transaction', 'TransactionController::transactionadd');
+$routes->post('accounting/save-transaction', 'TransactionController::savetransactions');
+$routes->get('/delete-transactions/(:num)', 'TransactionController::deletetransactions/$1');
+$routes->get('/edit-transactions/(:num)', 'TransactionController::edittransactions/$1');
+$routes->post('accounting/update-transaction', 'TransactionController::updatetransactions');
