@@ -102,15 +102,15 @@ class PropertyModel extends Model
     public function getPropertyWithTypeDetails($propertyId)
     {
         $db = \Config\Database::connect();
-    
+
         return $db->table('properties p')
-                  ->select('p.*, py.*,py.description as pydesp,p.description as prodesp')
-                  ->join('property_types py', 'py.id = p.propertytype_id', 'left')
-                  ->where('p.id', $propertyId)
-                  ->get()
-                  ->getRow(); // Use getRow() for single result
+            ->select('p.*, py.*,py.description as pydesp,p.description as prodesp')
+            ->join('property_types py', 'py.id = p.propertytype_id', 'left')
+            ->where('p.id', $propertyId)
+            ->get()
+            ->getRow(); // Use getRow() for single result
     }
-    
+
 
 
     public function saveproperty($data)
@@ -124,5 +124,26 @@ class PropertyModel extends Model
     public function deleteproperty($id)
     {
         return $this->delete($id);
+    }
+
+
+    public function getPropertyTypeDistribution()
+    {
+        return $this->db->table('properties')
+            ->select('category, COUNT(*) as count')
+            ->groupBy('category')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getPropertiesListedPerMonth()
+    {
+        $builder = $this->db->table('properties');
+        $builder->select("DATE_FORMAT(created_at, '%b %Y') AS month, COUNT(*) AS count");
+        $builder->where('created_at >=', date('Y-m-01', strtotime('-5 months'))); // Start from 6 months ago
+        $builder->groupBy("month");
+        $builder->orderBy("created_at", 'ASC');
+        $query = $builder->get();
+        return $query->getResultArray();
     }
 }

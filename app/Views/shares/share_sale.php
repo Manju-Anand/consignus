@@ -73,7 +73,7 @@
                                 <select id="shareholder_name" name="shareholder_name" class="form-select" required>
 
                                 </select>
-                                <input type="text" value="" id="shareholder_id" name="shareholder_id" class="form-control" readonly>
+                                <input type="hidden" value="" id="shareholder_id" name="shareholder_id" class="form-control" readonly>
                             </div>
 
 

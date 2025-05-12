@@ -161,8 +161,8 @@
             <li> <a href="<?= base_url(); ?>transactions-list"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Transactions</a>
             </li>
             <li>
-              <a href="<?= base_url(); ?>"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Share Sale</a>
+              <a href="<?= base_url(); ?>income-and-expenditure"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+              Income & Expenditure</a>
             </li>
 
           </ul>
@@ -287,7 +287,7 @@
                   </button>
                 </div>
                 <ul class="to-top-list">
-                  <li>
+                  <!-- <li>
                     <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3" href="view-profile.html">
                       <iconify-icon icon="solar:user-linear" class="icon text-xl"></iconify-icon> My Profile</a>
                   </li>
@@ -298,7 +298,7 @@
                   <li>
                     <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3" href="company.html">
                       <iconify-icon icon="icon-park-outline:setting-two" class="icon text-xl"></iconify-icon> Setting</a>
-                  </li>
+                  </li> -->
                   <li>
                     <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3" href="<?= base_url(); ?>logout">
                       <iconify-icon icon="lucide:power" class="icon text-xl"></iconify-icon> Log Out</a>
@@ -356,6 +356,11 @@
 
   <!-- main js -->
   <script src="<?= base_url(); ?>public/assets/js/app.js"></script>
+  
+
+
+
+
 
   <script>
     let table = new DataTable('#dataTable');

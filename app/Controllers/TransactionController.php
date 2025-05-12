@@ -136,4 +136,34 @@ class TransactionController extends BaseController
 
         return redirect()->to('/transactions-list')->with('success', 'Transaction Updated Successfully.');
     }
+
+    public function incomeexpenditure()
+    {
+        if (!$this->session->has('logged_user')) {
+
+            return view('loginview');
+        }
+       
+   
+        $start_date = $this->request->getGet('start_date') ?? '';
+        $end_date = $this->request->getGet('end_date') ?? '';
+
+        $summary =  $this->transmodel->getIncomeExpenditureSummary($start_date, $end_date);
+
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "summary" => $summary,
+            "start_date" => $start_date,
+            "end_date" => $end_date
+        ];
+        // return view('accounts/incomeexpenditure', $data);
+        // return view('accounts/incomeexpenditure', [
+        //     'summary' => $summary,
+        //     'start_date' => $start_date,
+        //     'end_date' => $end_date
+        // ]);
+
+        return $this->renderView('accounts/incomeexpenditure', $data);
+    }
 }

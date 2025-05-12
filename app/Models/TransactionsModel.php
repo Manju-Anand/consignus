@@ -66,4 +66,18 @@ class TransactionsModel extends Model
 
 
     }
+
+    public function getIncomeExpenditureSummary($startDate = null, $endDate = null)
+    {
+        $builder = $this->select('transaction_type, SUM(amount) as total');
+
+        if ($startDate) {
+            $builder->where('date >=', $startDate);
+        }
+        if ($endDate) {
+            $builder->where('date <=', $endDate);
+        }
+
+        return $builder->groupBy('transaction_type')->findAll();
+    }
 }

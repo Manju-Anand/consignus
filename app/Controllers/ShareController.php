@@ -9,6 +9,7 @@ use App\Models\shareholdermastermodel;
 use App\Models\SharepurchaseModel;
 use App\models\SharetransactionhistoryModel;
 use App\Models\SharesaleModel;
+use App\Models\TransactionsModel;
 
 class ShareController extends BaseController
 {
@@ -17,6 +18,7 @@ class ShareController extends BaseController
     public $sharepurchasemodel;
     public $sharetransactionhistorymodel;
     public $sharesalemodel;
+    public $transmodel;
     public function __construct()
     {
         $this->sharemodel = new ShareModel();
@@ -24,6 +26,7 @@ class ShareController extends BaseController
         $this->sharepurchasemodel = new SharepurchaseModel();
         $this->sharetransactionhistorymodel = new SharetransactionhistoryModel();
         $this->sharesalemodel = new SharesaleModel();
+        $this->transmodel =  new TransactionsModel();
     }
     public function index()
     {
@@ -207,6 +210,18 @@ class ShareController extends BaseController
         ];
 
         $this->sharetransactionhistorymodel->insert($historydata);
+
+        $headdata = [
+            'date'   => date('Y-m-d'),
+            'account_head_id'   => "1",
+            'description'   => "Share Purchase",
+            'transaction_type'   => "share_purchase",
+            'amount'   => $data['amount_invested'],
+            'mode_id'   => "1",
+            'created_at'   => date('Y-m-d H:i:s'),
+        ];
+
+        $this->transmodel->insert($headdata);
 
 
         // return redirect()->back()->with('success', 'Share purchase saved successfully.');
@@ -410,7 +425,17 @@ class ShareController extends BaseController
 
         $this->sharetransactionhistorymodel->insert($historydata);
 
+        $headdata = [
+            'date'   => date('Y-m-d'),
+            'account_head_id'   => "1",
+            'description'   => "Share Sale",
+            'transaction_type'   => "share_sale",
+            'amount'   => $data['saleamount'],
+            'mode_id'   => "1",
+            'created_at'   => date('Y-m-d H:i:s'),
+        ];
 
+        $this->transmodel->insert($headdata);
         // return redirect()->back()->with('success', 'Share purchase saved successfully.');
         return redirect()->to('/share-sale-list')->with('success', 'Share Sale Saved successfully.');
     }
@@ -454,7 +479,7 @@ class ShareController extends BaseController
             // Then delete from the transaction history table
             $this->sharetransactionhistorymodel->where('transaction_id', $aid)->delete();
 
-            return redirect()->to('/share-sales-list')->with('success', 'Sales and history deleted successfully.');
+            return redirect()->to('/share-sale-list')->with('success', 'Sales and history deleted successfully.');
         }
 
         return redirect()->back()->with('error', 'Failed to delete record.');
@@ -469,14 +494,14 @@ class ShareController extends BaseController
         if (!$purchase) {
             return $this->response->setJSON(['error' => 'Purchase not found']);
         }
-       
+
         log_message('info', "purchased shares : " . $purchase['shares_allocated']);
 
         $sharetype = $purchase['shareholder_type'];
         $totalpurshares = $this->sharepurchasemodel
-        ->selectSum('shares_allocated')
-        ->where('shareholder_type', $sharetype)
-        ->first();
+            ->selectSum('shares_allocated')
+            ->where('shareholder_type', $sharetype)
+            ->first();
         log_message('info', "total purchased shares based on type : " . $totalpurshares['shares_allocated']);
 
 
@@ -488,9 +513,9 @@ class ShareController extends BaseController
 
         log_message('info', "sell shares: " . $sold['shares_sold'] ?? 0);
         $totalsales = $this->sharesalemodel
-        ->selectSum('shares_sold')
-        ->where('shareholder_type', $sharetype)
-        ->first();
+            ->selectSum('shares_sold')
+            ->where('shareholder_type', $sharetype)
+            ->first();
         log_message('info', "total saled shares based on type : " . $totalsales['shares_sold']);
 
 
@@ -508,7 +533,7 @@ class ShareController extends BaseController
 
         $faceValue = $shareholderMaster['face_value'] ?? 0;
 
-        $availableShares =($shareholderMaster['no_of_shares'] ?? 0) - (($totalpurshares['shares_allocated'] ?? 0) - ($totalsales['shares_sold'] ?? 0));
+        $availableShares = ($shareholderMaster['no_of_shares'] ?? 0) - (($totalpurshares['shares_allocated'] ?? 0) - ($totalsales['shares_sold'] ?? 0));
         log_message('info', "faceValue : " . $faceValue);
         log_message('info', "availableShares : " . $availableShares);
         return $this->response->setJSON([
@@ -523,7 +548,7 @@ class ShareController extends BaseController
         $data = $this->request->getPost();
 
         // Validate inputs
-        if ( empty($data['shares_to_add']) ) {
+        if (empty($data['shares_to_add'])) {
             return redirect()->back()->with('error', 'All fields are required.');
         }
 
@@ -534,7 +559,7 @@ class ShareController extends BaseController
         $shareholder_name = $data['shareholder_name'];
         $totalsharespurchased = $data['total_shares_purcased'];
         $totalamtinvested = $data['total_amount_invested'];
-        
+
         $this->sharepurchasemodel->update($spid, [
             'amount_invested' => $totalamtinvested,
             'shares_allocated' => $totalsharespurchased,

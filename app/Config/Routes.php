@@ -116,3 +116,4 @@ $routes->post('accounting/save-transaction', 'TransactionController::savetransac
 $routes->get('/delete-transactions/(:num)', 'TransactionController::deletetransactions/$1');
 $routes->get('/edit-transactions/(:num)', 'TransactionController::edittransactions/$1');
 $routes->post('accounting/update-transaction', 'TransactionController::updatetransactions');
+$routes->get('/income-and-expenditure', 'TransactionController::incomeexpenditure');

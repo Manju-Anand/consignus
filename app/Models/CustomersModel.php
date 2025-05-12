@@ -78,4 +78,39 @@ class CustomersModel extends Model
     {
         return $this->delete($id);
     }
+
+    public function getCustomerRegistrationsLast6Monthsold()
+    {
+        $builder = $this->db->table('customers');
+        $builder->select("DATE_FORMAT(created_at, '%Y-%m') as month, COUNT(*) as count");
+        $builder->where('created_at >=', date('Y-m-01', strtotime('-5 months')));
+        $builder->groupBy('month');
+        $builder->orderBy('month', 'ASC');
+        return $builder->get()->getResultArray();
+    }
+
+    public function getCustomerRegistrationsLast6Months()
+    {
+        $result = [];
+
+        // Prepare an array for the last 6 months with 0 as default
+        for ($i = 5; $i >= 0; $i--) {
+            $monthKey = date('M', strtotime("-$i months"));
+            $result[$monthKey] = 0;
+        }
+
+        // Fetch actual data
+        $builder = $this->db->table('customers');
+        $builder->select("DATE_FORMAT(created_at, '%b') as month, COUNT(*) as count");
+        $builder->where('created_at >=', date('Y-m-01', strtotime('-5 months')));
+        $builder->groupBy('month');
+        $query = $builder->get()->getResultArray();
+
+        // Merge actual data into result
+        foreach ($query as $row) {
+            $result[$row['month']] = (int)$row['count'];
+        }
+
+        return $result;
+    }
 }

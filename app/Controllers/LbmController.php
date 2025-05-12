@@ -57,7 +57,7 @@ class LbmController extends BaseController
         return $this->renderView('lbm/addlbm', $data);
     }
 
-    
+
     public function savelbm()
     {
         $validation = \Config\Services::validation();
@@ -219,9 +219,10 @@ class LbmController extends BaseController
 
         return redirect()->to('/lbm');
     }
-    public function deleteslbm($aid){
-        $result =$this->lbmmodel->deletelbm($aid);
-        if ($result){
+    public function deleteslbm($aid)
+    {
+        $result = $this->lbmmodel->deletelbm($aid);
+        if ($result) {
             return redirect()->to('/lbm');
         }
     }
@@ -240,7 +241,8 @@ class LbmController extends BaseController
         return view('lbm/lbmview_modal', ['staff' => $staff]);
     }
 
-    public function teamassign(){
+    public function teamassign()
+    {
 
         if (!$this->session->has('logged_user')) {
 
@@ -260,7 +262,6 @@ class LbmController extends BaseController
         ];
         $this->logData('info', 'Data array', $data);
         return $this->renderView('lbm/team_assignment', $data);
-
     }
 
     public function getcustomerDetails()
@@ -298,7 +299,7 @@ class LbmController extends BaseController
             "lbm" => "required",
             "customers" => "required",
             "property" => "required",
-            ]);
+        ]);
 
         // Initialize data with page details
         $data = [
@@ -326,7 +327,7 @@ class LbmController extends BaseController
             return $this->renderView('lbm/team_assignment', $data);
         } else {
 
-          
+
 
             $cdata = [
                 'member_id' => $this->request->getVar('lbm'),
@@ -347,11 +348,14 @@ class LbmController extends BaseController
         }
     }
 
-    public function deleteteamassign($aid){
-        $result =$this->teammodel->delete($aid);
-        if ($result){
+    public function deleteteamassign($aid)
+    {
+        $result = $this->teammodel->delete($aid);
+        if ($result) {
             return redirect()->to('/team-assignment');
         }
     }
 
+
+    
 }

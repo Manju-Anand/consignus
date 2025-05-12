@@ -58,4 +58,30 @@ class SharetransactionhistoryModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getMonthlyShareSales()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('share_transaction_history');
+        $builder->select("DATE_FORMAT(transaction_date, '%b') as month, COUNT(id) as count");
+        $builder->where('transaction_type', 'sale');
+        $builder->groupBy("MONTH(transaction_date)");
+        $builder->orderBy("MONTH(transaction_date)", 'ASC');
+
+        return $builder->get()->getResultArray();
+    }
+
+    public function getMonthlyShareTransactions()
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('share_transaction_history');
+    $builder->select("DATE_FORMAT(transaction_date, '%b') as month,
+                      SUM(CASE WHEN transaction_type = 'purchase' THEN 1 ELSE 0 END) as purchases,
+                      SUM(CASE WHEN transaction_type = 'sale' THEN 1 ELSE 0 END) as sales");
+    $builder->groupBy("MONTH(transaction_date)");
+    $builder->orderBy("MONTH(transaction_date)", 'ASC');
+
+    return $builder->get()->getResultArray();
+}
+
 }
