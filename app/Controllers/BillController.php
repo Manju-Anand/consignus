@@ -11,7 +11,7 @@ use Mpdf\Mpdf;
 class BillController extends Controller
 {
 
-
+public $mmodel;
     public function generatePDF()
     {
         require_once ROOTPATH . 'vendor/autoload.php';
