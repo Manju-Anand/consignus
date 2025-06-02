@@ -72,7 +72,7 @@
                                                 Property <span class="text-danger-600">*</span>
 
                                             </label>
-                                            <select class="form-control  form-control-sm form-select" id="property" name="property">
+                                            <select class="form-control  form-control-sm form-select" id="property" name="property" >
                                                 <option selected disabled>Select Property</option>
                                                 <?php foreach ($property as $property): ?>
                                                     <option value="<?= esc($property['id']); ?>"><?= esc($property['title']); ?></option>
@@ -140,7 +140,7 @@
                         <div class="col-xxl-4 col-lg-4">
                             <div class="card h-100 border shadow-none radius-8 overflow-hidden">
                                 <div class="card-body p-24">
-                                <h6 style="font-size:  0.75rem;">Property Details</h6>
+                                    <h6 style="font-size:  0.75rem;">Property Details</h6>
                                     <div class="table-responsive" id="propertytable">
 
                                     </div>
@@ -169,7 +169,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php if (!empty($teamassign)) : $u = 0;
+                                                <?php if (!empty($teamassign)) : $u = 0;
                                                     foreach ($teamassign as $teamassign) :  $u++; ?>
                                                         <tr>
 
@@ -179,7 +179,7 @@
                                                             <td><?= esc($teamassign['cname']) ?></td>
                                                             <td><?= esc($teamassign['role']) ?></td>
                                                             <td><?= esc($teamassign['assigned_at']) ?></td>
-                                                            
+
                                                             <td>
 
                                                                 <a href="javascript:void(0);" onclick="confirmDelete(<?= $teamassign['id']; ?>)" title="Delete Customer"
@@ -239,24 +239,8 @@
     }
 
 
-    $('#property').on('change', function() {
-        var propertyTypeId = $(this).val();
 
-        $.ajax({
-            url: '<?= base_url('get-property-full-details'); ?>',
-            type: 'POST',
-            data: {
-                id: propertyTypeId
-            },
-            success: function(response) {
-                console.log(response),
-                $('#propertytable').html(response);
-            },
-            error: function() {
-                alert('Error fetching property details.');
-            }
-        });
-    });
+   
 
     $('#customers').on('change', function() {
         var custId = $(this).val();
@@ -269,11 +253,73 @@
             },
 
             success: function(response) {
-                // console.log(response),
+                // console.log(response);
+
                 $('#custdatatable').html(response);
+
+                // Wait for table to be injected
+                setTimeout(function() {
+                    // Get the property name from the 5th row (zero-indexed)
+                    const bookedProperty = $('#custdatatable table tr').eq(4).find('td').text().trim();
+
+                    // Update the select#property
+                    $('#property option').each(function() {
+                        // alert(bookedProperty);
+
+                        if ($(this).val() === bookedProperty) {
+                            // alert($(this).val());
+                            $(this).prop('selected', true);
+                            var propertyTypeId = $(this).val();
+                            //   $('#property').trigger('change');
+
+                            $.ajax({
+                                url: '<?= base_url('get-property-full-details'); ?>',
+                                type: 'POST',
+                                data: {
+                                    id: propertyTypeId
+                                },
+                                success: function(response) {
+                                    console.log(response),
+                                        $('#propertytable').html(response);
+                                },
+                                error: function() {
+                                    alert('Error fetching property details.');
+                                }
+                            });
+
+                        } else {
+                            // alert("hai");
+                            $(this).prop('selected', false);
+                        }
+                    });
+
+                    // Trigger the change event AFTER setting selected option
+
+
+                }, 100); // delay to ensure table is rendered
             },
             error: function() {
                 alert('Error fetching customer details.');
+            }
+        });
+    });
+
+    // $('#property').on('change', function() {
+    $(document).on('change', '#property', function() {
+        var propertyTypeId = $(this).val();
+        // console.log("asdsad");
+        $.ajax({
+            url: '<?= base_url('get-property-full-details'); ?>',
+            type: 'POST',
+            data: {
+                id: propertyTypeId
+            },
+            success: function(response) {
+                console.log(response),
+                    $('#propertytable').html(response);
+            },
+            error: function() {
+                alert('Error fetching property details.');
             }
         });
     });

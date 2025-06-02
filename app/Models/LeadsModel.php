@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class FollwupModel extends Model
+class LeadsModel extends Model
 {
-    protected $table            = 'follow_ups';
+    protected $table            = 'leads';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -14,13 +14,18 @@ class FollwupModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id',
-        'leads_id',
-        'follow_up_date',
-        'next_follow_up_date',
-        'communication_mode',
-        'notes',
-        'status',
-        'created_at'
+        'name',
+        'phone',
+        'email',
+        'address',
+        'requirement_type',
+        'budget_range',
+        'preferred_location',
+        'lead_source',
+        'enquiry_date',
+        'assigned_staff_id',
+        'created_at',
+        'leadstatus'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -53,33 +58,18 @@ class FollwupModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getfollowup($id = null)
+    public function getleads($id = null)
     {
-        if ($id == null) {
-            return $this->findAll();
+        $builder = $this->db->table('leads');
+        $builder->select('leads.*,staff.full_name as sname');
+        $builder->join('staff', 'staff.id = leads.assigned_staff_id', 'left');
+        if ($id) {
+            $builder->where('leads.id', $id);
+            $query = $builder->get();
+            return $query->getRowArray(); // returns a single associative array
         } else {
-            return $this->find($id);
+            $query = $builder->get();
+            return $query->getResultArray(); // returns multiple records
         }
-    }
-    public function getfollowupwithcid($cid)
-    {
-        return $this->db->table('follow_ups')
-            ->where('leads_id', $cid)
-            ->orderBy('id', 'DESC')
-            ->get()
-            ->getResultArray();
-    }
-
-    public function createFollowup($data)
-    {
-        return $this->insert($data);
-    }
-    public function updateFollowup($id, $data)
-    {
-        return $this->update($id, $data);
-    }
-    public function deleteFollowup($id)
-    {
-        return $this->delete($id);
     }
 }

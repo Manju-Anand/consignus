@@ -28,17 +28,27 @@ $routes->get('/edit-staff/(:num)', 'StaffController::editstaff/$1');
 $routes->post('editstaff-form', 'StaffController::updatestaff'); 
 $routes->get('/delete-staff/(:num)', 'StaffController::deletestaff/$1');
 
+$routes->get('/leads', 'LeadController::index');
+$routes->get('/add-leads', 'LeadController::addleads');
+$routes->post('leadsadd-form', 'LeadController::saveleads'); 
+$routes->post('leads/viewDetails', 'LeadController::viewDetails'); 
+$routes->get('/edit-leads/(:num)', 'LeadController::editleads/$1');
+$routes->get('/delete-leads/(:num)', 'LeadController::deleteleads/$1');
+$routes->post('leadsedit-form', 'LeadController::updateleads'); 
+
+$routes->get('/followup-leads/(:num)', 'FollowupController::viewfollowup/$1');
+$routes->post('save-followup', 'FollowupController::savefollowup'); 
+$routes->post('convertion/(:num)', 'FollowupController::convertion/$1');
+$routes->post('convertion-form', 'FollowupController::save_conversion');
+$routes->get('/delete-followup/(:num)', 'FollowupController::deletefollowup/$1');
+
 $routes->get('/customers', 'CustomersController::index');
 $routes->get('/add-customer', 'CustomersController::addcustomer');
 $routes->post('customeradd-form', 'CustomersController::savecustomer'); 
 $routes->post('customers/viewDetails', 'CustomersController::viewDetails'); 
 $routes->get('/edit-customer/(:num)', 'CustomersController::editcustomer/$1');
 $routes->get('/delete-customer/(:num)', 'CustomersController::deletecustomer/$1');
-$routes->post('customeredit-form', 'CustomersController::updatecustomer'); 
-
-$routes->get('/followup-customer/(:num)', 'FollowupController::viewfollowup/$1');
-$routes->post('followup-form', 'FollowupController::savefollowup'); 
-$routes->get('/delete-followup/(:num)', 'FollowupController::deletefollowup/$1');
+$routes->post('customeredit-form', 'CustomersController::updatecustomer');
 
 
 $routes->get('/property', 'PropertyController::index');
@@ -82,6 +92,10 @@ $routes->post('teamassign-form', 'LbmController::saveteamassign');
 $routes->get('/delete-teamassign/(:num)', 'LbmController::deleteteamassign/$1');
 
 $routes->get('/team-work-update', 'TeamworkController::index');
+$routes->get('/edit-teamassign/(:num)', 'TeamworkController::teamworkupdate/$1');
+$routes->post('assignwork-updation', 'TeamworkController::saveteamworkupdate'); 
+$routes->get('/lbm-contribution', 'TeamworkController::lbmcontribution'); 
+$routes->get('/company-liability-list', 'TeamworkController::companyliability'); 
 
 $routes->get('/company-valuation', 'ShareController::index');
 $routes->post('/valuation/saveAll', 'ShareController::saveAll');

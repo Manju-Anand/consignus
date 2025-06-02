@@ -13,20 +13,34 @@ class CustomersModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
+
         'id',
+        'lead_id',
         'name',
         'phone',
         'email',
         'address',
-        'requirement_type',
-        'budget_range',
-        'preferred_location',
-        'lead_source',
-        'enquiry_date',
-        'assigned_staff_id',
-        'created_at'
-    ];
+        'property_booked',
+        'booking_date',
+        'payment_status',
+        'created_at',
+        'amount_paid',
+        'modified_at',
+        'propertyid'
 
+    ];
+        // 'id',
+        // 'name',
+        // 'phone',
+        // 'email',
+        // 'address',
+        // 'requirement_type',
+        // 'budget_range',
+        // 'preferred_location',
+        // 'lead_source',
+        // 'enquiry_date',
+        // 'assigned_staff_id',
+        // 'created_at'
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
 

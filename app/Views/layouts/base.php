@@ -71,6 +71,12 @@
         </li>
         <li class="sidebar-menu-group-title">Application</li>
         <li>
+          <a href="<?= base_url(); ?>leads">
+            <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
+            <span>Leads</span>
+          </a>
+        </li>
+        <li>
           <a href="<?= base_url(); ?>customers">
             <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
             <span>Customers</span>
@@ -178,6 +184,21 @@
         </li> -->
 
         <!-- -->
+        <li class="sidebar-menu-group-title">Analysis</li>
+        <li>
+          <a href="<?= base_url(); ?>lbm-contribution">
+            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
+            <span>LBM Contribution</span>
+          </a>
+          
+        </li>
+         <li>
+          <a href="<?= base_url(); ?>company-liability-list">
+            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
+            <span>Company Liability List</span>
+          </a>
+          
+        </li>
 
 
         <li class="sidebar-menu-group-title">Masters</li>

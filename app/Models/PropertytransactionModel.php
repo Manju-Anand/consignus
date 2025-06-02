@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class FollwupModel extends Model
+class PropertytransactionModel extends Model
 {
-    protected $table            = 'follow_ups';
+    protected $table            = 'property_transactions';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -14,13 +14,19 @@ class FollwupModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id',
-        'leads_id',
-        'follow_up_date',
-        'next_follow_up_date',
-        'communication_mode',
-        'notes',
-        'status',
-        'created_at'
+        'customer_id',
+        'property_id',
+        'property_name',
+        'property_type',
+        'property_price',
+        'transaction_mode',
+        'payment_mode',
+        'amount_paid',
+        'transaction_date',
+        'receipt_number',
+        'receipt_file_path',
+        'created_at',
+        'item_type'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -52,34 +58,4 @@ class FollwupModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getfollowup($id = null)
-    {
-        if ($id == null) {
-            return $this->findAll();
-        } else {
-            return $this->find($id);
-        }
-    }
-    public function getfollowupwithcid($cid)
-    {
-        return $this->db->table('follow_ups')
-            ->where('leads_id', $cid)
-            ->orderBy('id', 'DESC')
-            ->get()
-            ->getResultArray();
-    }
-
-    public function createFollowup($data)
-    {
-        return $this->insert($data);
-    }
-    public function updateFollowup($id, $data)
-    {
-        return $this->update($id, $data);
-    }
-    public function deleteFollowup($id)
-    {
-        return $this->delete($id);
-    }
 }

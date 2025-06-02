@@ -292,40 +292,40 @@ class LbmController extends BaseController
 
     public function saveteamassign()
     {
-        $validation = \Config\Services::validation();
+        // $validation = \Config\Services::validation();
 
-        // Set validation rules
-        $validation->setRules([
-            "lbm" => "required",
-            "customers" => "required",
-            "property" => "required",
-        ]);
+        // // Set validation rules
+        // $validation->setRules([
+        //     "lbm" => "required",
+        //     "customers" => "required",
+        //     "property" => "required",
+        // ]);
 
-        // Initialize data with page details
-        $data = [
-            "validation" => null, // Default null, will be set if validation fails
-        ];
+        // // Initialize data with page details
+        // $data = [
+        //     "validation" => null, // Default null, will be set if validation fails
+        // ];
 
 
 
-        if (!$this->validate($validation->getRules())) {
-            // Add validation errors to $data array
-            $lbms = $this->lbmmodel->getLbm();
-            $customers = $this->cmodel->getCustomer();
-            $property = $this->pmodel->getproperty();
-            $teamassign = $this->lbmmodel->getteamassigndata();
-            $data = [
-                "meta_title" => "Consignus",
-                "meta_description" => "Consignus",
-                "validation" => $this->validator,
-                "lbms" => $lbms,
-                "customers" => $customers,
-                "property" => $property,
-                "teamassign" => $teamassign,
-            ];
+        // if (!$this->validate($validation->getRules())) {
+        //     // Add validation errors to $data array
+        //     $lbms = $this->lbmmodel->getLbm();
+        //     $customers = $this->cmodel->getCustomer();
+        //     $property = $this->pmodel->getproperty();
+        //     $teamassign = $this->lbmmodel->getteamassigndata();
+        //     $data = [
+        //         "meta_title" => "Consignus",
+        //         "meta_description" => "Consignus",
+        //         "validation" => $this->validator,
+        //         "lbms" => $lbms,
+        //         "customers" => $customers,
+        //         "property" => $property,
+        //         "teamassign" => $teamassign,
+        //     ];
 
-            return $this->renderView('lbm/team_assignment', $data);
-        } else {
+        //     return $this->renderView('lbm/team_assignment', $data);
+        // } else {
 
 
 
@@ -345,7 +345,7 @@ class LbmController extends BaseController
             $lbm_id = $this->teammodel->insert($cdata);
 
             return redirect()->to('/team-assignment');
-        }
+        // }
     }
 
     public function deleteteamassign($aid)

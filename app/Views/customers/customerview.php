@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-6 d-flex justify-content-end">
 
-                    <a href="<?= base_url(); ?>add-customer"> <button type="button" class="btn btn-success-600 radius-8 px-14 py-6 text-sm right">Add New Customer</button></a>
+                    <!-- <a href="<?= base_url(); ?>add-customer"> <button type="button" class="btn btn-success-600 radius-8 px-14 py-6 text-sm right">Add New Customer</button></a> -->
                 </div>
             </div>
 
@@ -48,10 +48,10 @@
                             <th scope="col">Name</th>
 
                             <th scope="col">Phone</th>
-                            <th scope="col">Requirement Type</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Budget</th>
-                            <th scope="col">Assigned Staff</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Property Booked</th>
+                            <th scope="col">Booking Date</th>
+
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -63,16 +63,16 @@
                                     <td><a href="javascript:void(0)" class="text-primary-600"><?= esc($u) ?></a></td>
                                     <td><?= esc($customer['name']) ?></td>
                                     <td><?= esc($customer['phone']) ?></td>
-                                    <td><?= esc($customer['requirement_type']) ?></td>
-                                    <td><?= esc($customer['preferred_location']) ?></td>
-                                    <td><?= esc($customer['budget_range']) ?></td>
-                                    <td><?= esc($customer['assigned_staff_id']) ?></td>
+                                    <td><?= esc($customer['email']) ?></td>
+                                    <td><?= esc($customer['property_booked']) ?></td>
+                                    <td><?= esc($customer['booking_date']) ?></td>
+                                    
                                     <td>
 
-                                        <a href="<?= base_url('followup-customer/' . $customer['id']) ?>" data-id="<?= $customer['id']; ?>" title="Follow-Up"
+                                        <!-- <a href="<?= base_url('followup-customer/' . $customer['id']) ?>" data-id="<?= $customer['id']; ?>" title="Follow-Up"
                                             class="w-32-px h-32-px bg-warning-light text-warning-800 rounded-circle d-inline-flex align-items-center justify-content-center">
                                             <iconify-icon icon="mdi:message-reply-text-outline"></iconify-icon>
-                                        </a>
+                                        </a> -->
 
                                         <a href="javascript:void(0)" data-id="<?= $customer['id']; ?>" title="View Customer"
                                             class="view-staff-btn w-32-px h-32-px bg-primary-light text-primary-800 rounded-circle d-inline-flex align-items-center justify-content-center">
