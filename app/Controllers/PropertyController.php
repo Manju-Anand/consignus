@@ -27,10 +27,30 @@ class PropertyController extends BaseController
             return view('loginview');
         }
         $properties = $this->propertymodel->getPropertiesWithOneImage();
+        // Get search keyword
+        $search = $this->request->getGet('search');
+        // Filter properties based on search term
+        $searchResults = [];
+        if (!empty($search)) {
+            foreach ($properties as $prop) {
+                // Match against title, category, or any other fields
+                if (
+                    stripos($prop['title'], $search) !== false ||
+                    stripos($prop['category'], $search) !== false
+                ) {
+                    $searchResults[] = $prop;
+                }
+            }
+        }
+
+
+
         $data = [
             "meta_title" => "Consignus",
             "meta_description" => "Consignus",
             "properties" => $properties,
+            "search" => $search,
+            "searchResults" => $searchResults
         ];
 
         // $this->logData('info', 'property idaa array', $data);
@@ -248,5 +268,36 @@ class PropertyController extends BaseController
         ];
         $this->logData('info', 'property data array', $data);
         return $this->renderView('property/viewproperty', $data);
+    }
+
+
+
+
+    public function ajaxSearchProperty()
+    {
+        $search = $this->request->getGet('search');
+        $db = \Config\Database::connect();
+
+        // Base SQL builder
+        $builder = $db->table('properties p')
+            ->select(
+                'p.*, 
+            (SELECT image_path FROM property_images i 
+             WHERE i.property_id = p.id 
+             ORDER BY i.id ASC LIMIT 1) as image_path'
+            );
+
+        // Apply search filter if provided
+        if (!empty($search)) {
+            $builder->groupStart()
+                ->like('p.title', $search)
+                ->orLike('p.category', $search)
+                ->groupEnd();
+        }
+
+        $properties = $builder->get()->getResultArray();
+
+        $this->logData('info', 'property data array', $properties);
+        return view('property/property_cards', ['properties' => $properties]);
     }
 }

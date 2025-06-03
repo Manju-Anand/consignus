@@ -125,7 +125,7 @@
 <script>
     function confirmDelete(id) {
         if (confirm("Are you sure you want to delete this Leadership Board Members Details?")) {
-            window.location.href = "<?= base_url('delete-lbms/') ?>" + id;
+            window.location.href = "<?= base_url('delete-lbm/') ?>" + id;
         }
     }
 

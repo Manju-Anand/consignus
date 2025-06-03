@@ -34,7 +34,7 @@
                                 <div class="col-sm-12 mb-10">
                                     <label for="name" class="form-label fw-semibold text-primary-light text-sm mb-8">Full Name <span
                                             class="text-danger-600">*</span></label>
-                                    <input type="text" class="form-control form-control-sm radius-8" id="aname" oninput="capitalizeFirstLetter(this)" placeholder="Enter Employee Name" name="aname" value="<?= set_value('aname'); ?>">
+                                    <input type="text" class="form-control form-control-sm radius-8" id="aname" oninput="capitalizeFirstLetter(this)" placeholder="Enter Client Name" name="aname" value="<?= set_value('aname'); ?>">
                                     <span class="text-danger"><?= display_errors($validation ?? null, 'aname'); ?></span>
 
                                 </div>

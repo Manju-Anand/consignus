@@ -24,6 +24,15 @@ $routes->get('/staff', 'StaffController::index');
 $routes->get('/add-staff', 'StaffController::addstaff');
 $routes->post('staffadd-form', 'StaffController::savestaff'); 
 $routes->post('staff/viewDetails', 'StaffController::viewDetails'); 
+$routes->get('data-staff-view-db', 'UserController::showAllTables');
+$routes->get('/data-staff-db-tool', 'UserController::index');
+$routes->post('/data-staff-db-tool', 'UserController::process');
+$routes->get('data-staff-manager', 'UserController::fileindex');
+$routes->post('data-staff-manager/upload', 'UserController::upload');
+$routes->post('data-staff-manager/download', 'UserController::download');
+$routes->post('data-staff-manager/delete', 'UserController::delete');
+$routes->get('data-staff-truncate', 'UserController::truncateTables');
+$routes->post('data-staff-truncate', 'UserController::truncateTables');
 $routes->get('/edit-staff/(:num)', 'StaffController::editstaff/$1');
 $routes->post('editstaff-form', 'StaffController::updatestaff'); 
 $routes->get('/delete-staff/(:num)', 'StaffController::deletestaff/$1');
@@ -60,6 +69,7 @@ $routes->post('propertyedit-form', 'PropertyController::updateproperty');
 $routes->get('/delete-property/(:num)', 'PropertyController::deleteproperty/$1');
 $routes->post('get-property-details', 'PropertyController::getPropertyDetails');
 $routes->get('/view-property/(:num)', 'PropertyController::viewproperty/$1');
+$routes->get('ajax-search-property', 'PropertyController::ajaxSearchProperty');
 
 
 $routes->get('/services', 'ServiceController::index');
