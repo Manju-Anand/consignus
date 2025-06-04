@@ -83,7 +83,7 @@ class StaffController extends BaseController
         } else {
 
             $file = $this->request->getFile('profile_image');
-
+            $newName = "";
             if ($file && $file->isValid() && !$file->hasMoved()) {
                 // Generate a new name or use the original
                 $newName = $file->getRandomName(); // or $file->getClientName();
@@ -167,7 +167,7 @@ class StaffController extends BaseController
         $file = $this->request->getFile('profile_image');
         $staffid = $this->request->getVar('aid');
         $userid = $this->request->getVar('uid');
-
+        $newName = "";
         if ($file && $file->isValid() && !$file->hasMoved()) {
 
 
@@ -242,9 +242,10 @@ class StaffController extends BaseController
         return redirect()->to('/staff');
     }
 
-    public function deletestaff($aid){
-        $result =$this->staffmodel->deleteStaff($aid);
-        if ($result){
+    public function deletestaff($aid)
+    {
+        $result = $this->staffmodel->deleteStaff($aid);
+        if ($result) {
             return redirect()->to('/staff');
         }
     }

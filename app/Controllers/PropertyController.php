@@ -123,17 +123,33 @@ class PropertyController extends BaseController
 
         $files = $this->request->getFileMultiple('upload-file-multiple');
 
+        // if ($files) {
+        //     foreach ($files as $file) {
+        //         if ($file->isValid() && !$file->hasMoved()) {
+        //             $newName = $file->getRandomName();
+        //             $file->move(FCPATH . 'public/uploads/property/', $newName);
+
+        //             $imagedata = [
+        //                 'property_id' => $property_id,
+        //                 'image_path' => $newName,
+        //                 'created_at' => date('Y-m-d h:i:s'),
+        //             ];
+        //             $this->logData('info', 'property imagedata array', $imagedata);
+        //             $this->pimagesmodel->insert($imagedata);
+        //         }
+        //     }
+        // }
         if ($files) {
             foreach ($files as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
-                    $newName = $file->getRandomName();
-                    $file->move(FCPATH . 'public/uploads/property/', $newName);
+                    $resizedName = $this->processImage($file); // 👈 Process each image
 
                     $imagedata = [
                         'property_id' => $property_id,
-                        'image_path' => $newName,
+                        'image_path' => $resizedName,
                         'created_at' => date('Y-m-d h:i:s'),
                     ];
+
                     $this->logData('info', 'property imagedata array', $imagedata);
                     $this->pimagesmodel->insert($imagedata);
                 }
@@ -165,7 +181,7 @@ class PropertyController extends BaseController
 
     public function deleteImage($id)
     {
-
+        $this->logData('info', 'property data array', $id);
         $image =  $this->pimagesmodel->find($id);
 
         if ($image) {
@@ -299,5 +315,85 @@ class PropertyController extends BaseController
 
         $this->logData('info', 'property data array', $properties);
         return view('property/property_cards', ['properties' => $properties]);
+    }
+
+
+    private function processImage($file, $targetWidth = 720, $targetHeight = 520)
+    {
+        $image = \Config\Services::image();
+        $newName = $file->getRandomName();
+        $originalPath = FCPATH . 'public/uploads/property/original_' . $newName;
+        $finalPath = FCPATH . 'public/uploads/property/final_' . $newName;
+
+        // Move original
+        $file->move(FCPATH . 'public/uploads/property/', 'original_' . $newName);
+
+        // Get original dimensions
+        $imageSize = getimagesize($originalPath);
+        $width = $imageSize[0];
+        $height = $imageSize[1];
+        $srcRatio = $width / $height;
+        $targetRatio = $targetWidth / $targetHeight;
+
+        // Determine how to crop
+        if ($srcRatio > $targetRatio) {
+            // Source is wider
+            $newHeight = $height;
+            $newWidth = $height * $targetRatio;
+            $x = ($width - $newWidth) / 2;
+            $y = 0;
+        } else {
+            // Source is taller or same
+            $newWidth = $width;
+            $newHeight = $width / $targetRatio;
+            $x = 0;
+            $y = ($height - $newHeight) / 2;
+        }
+
+        // Crop and resize
+        $image->withFile($originalPath)
+            ->crop((int)$newWidth, (int)$newHeight, (int)$x, (int)$y)
+            ->resize($targetWidth, $targetHeight, true)
+            ->save($finalPath);
+
+        // Delete the original if not needed
+        @unlink($originalPath);
+
+        return 'final_' . $newName;
+    }
+
+
+
+    public function resizeAllPropertyImages()
+    {
+        helper('filesystem'); // if needed
+        $db = \Config\Database::connect();
+        $builder = $db->table('property_images');
+        $images = $builder->get()->getResult();
+
+        $targetWidth = 720;
+        $targetHeight = 520;
+        $uploadPath = FCPATH . 'public/uploads/property/';
+
+        foreach ($images as $img) {
+            $imagePath = $uploadPath . $img->image_path;
+
+            if (file_exists($imagePath)) {
+                // Resize & crop image to 360x260
+                $this->resizeAndCropImage($imagePath, $targetWidth, $targetHeight);
+            } else {
+                log_message('error', 'Image not found: ' . $imagePath);
+            }
+        }
+
+        echo "All property images resized to {$targetWidth}x{$targetHeight} successfully.";
+    }
+    private function resizeAndCropImage($imagePath, $targetWidth, $targetHeight)
+    {
+        $image = \Config\Services::image()
+            ->withFile($imagePath)
+            ->resize($targetWidth, $targetHeight, true, 'height')
+            ->crop($targetWidth, $targetHeight, 0, 0)
+            ->save($imagePath); // overwrite original
     }
 }

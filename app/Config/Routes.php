@@ -33,6 +33,8 @@ $routes->post('data-staff-manager/download', 'UserController::download');
 $routes->post('data-staff-manager/delete', 'UserController::delete');
 $routes->get('data-staff-truncate', 'UserController::truncateTables');
 $routes->post('data-staff-truncate', 'UserController::truncateTables');
+$routes->get('resizeAllPropertyImages', 'PropertyController::resizeAllPropertyImages');
+
 $routes->get('/edit-staff/(:num)', 'StaffController::editstaff/$1');
 $routes->post('editstaff-form', 'StaffController::updatestaff'); 
 $routes->get('/delete-staff/(:num)', 'StaffController::deletestaff/$1');

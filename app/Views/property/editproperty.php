@@ -99,7 +99,7 @@
                                     <!-- Table Placeholder -->
                                     <div id="propertyDetailsTable" class="mt-3">
 
-                                       
+
                                     </div>
 
 
@@ -200,51 +200,8 @@
 
                                 <!-- Right side: Display Saved Properties -->
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold text-neutral-900">Saved Properties</label>
-                                    <div class="card h-100 p-0">
-                                        <div class="card-body p-24">
-                                            <?php if (!empty($propertyimages)): ?>
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php foreach ($propertyimages as $propertyimage): ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <?php if (!empty($propertyimage->image_path)): ?>
-                                                                        <img src="<?= base_url('public/uploads/property/' . $propertyimage->image_path) ?>"
-                                                                            alt="Property Image"
-                                                                            style="width: 100px; height: 75px; object-fit: cover;"
-                                                                            class="rounded border" />
-                                                                    <?php else: ?>
-                                                                        <div class="text-muted">No Image</div>
-                                                                    <?php endif; ?>
-                                                                </td>
-                                                                <td>
-                                                                    <form action="<?= base_url('property/delete-image/' . $propertyimage->id) ?>" method="post" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                                                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        <?php endforeach; ?>
-                                                    </tbody>
-                                                </table>
-                                            <?php else: ?>
-                                                <p>No properties found.</p>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
 
 
-                            <div class="row">
-                                <div class="col-md-6">
                                     <label class="form-label fw-bold text-neutral-900">Property Status:</label>
 
                                     <select class="form-control form-select border border-neutral-200 radius-8" id="pstatus" name="pstatus">
@@ -253,8 +210,7 @@
 
                                     </select>
                                     <span class="text-danger"><?= display_errors($validation ?? null, 'pstatus'); ?></span>
-                                </div>
-                                <div class="col-md-6">
+
                                     <label class="form-label fw-bold text-neutral-900">Featured Property </label>
 
                                     <select class="form-control form-select border border-neutral-200 radius-8" id="featured" name="featured">
@@ -263,23 +219,81 @@
 
                                     </select>
                                     <span class="text-danger"><?= display_errors($validation ?? null, 'featured'); ?></span>
+
+                                    <br>
+                                    <hr><br>
+                                    <div class="row">
+                                        <div class="col-md-6" style="text-align:right;">
+                                            <button type="submit" name="submit" class="btn btn-primary-600 radius-8 px-40 py-8">Submit</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="reset" id="cancel" class="btn btn-primary-600 radius-8 px-40 py-8">Cancel</button>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
 
+
+
+
                         <?php endif; ?>
-                        <div class="row">
-                            <div class="col-md-6" style="text-align:right;">
-                                <button type="submit" name="submit" class="btn btn-primary-600 radius-8 px-40 py-8">Submit</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="reset" id="cancel" class="btn btn-primary-600 radius-8 px-40 py-8">Cancel</button>
-                            </div>
-                        </div>
+
 
 
 
                     </form>
+                    <br><br><br>
+                    <hr>
+                    <!--  Display Saved Properties -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold text-neutral-900">Saved Properties</label>
+                            <div class="card h-100 p-0">
+                                <div class="card-body p-24">
+
+
+
+
+                                    <!-- ******************************************************* -->
+                                    <?php if (!empty($propertyimages)): ?>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Image</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($propertyimages as $propertyimage): ?>
+                                                    <tr>
+                                                        <td>#</td>
+                                                        <td>
+                                                            <?php if (!empty($propertyimage->image_path)): ?>
+                                                                <img src="<?= base_url('public/uploads/property/' . $propertyimage->image_path) ?>"
+                                                                    alt="Property Image"
+                                                                    style="width: 100px; height: 75px; object-fit: cover;"
+                                                                    class="rounded border" />
+                                                            <?php else: ?>
+                                                                <div class="text-muted">No Image</div>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td>
+                                                            <form action="<?= base_url('property/delete-image/' . $propertyimage->id) ?>" method="post" onsubmit="return confirm('Are you sure you want to delete this image?');">
+                                                                <button type="submit" class="btn btn-sm btn-danger hai">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    <?php endif; ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -362,10 +376,11 @@
     // ================================================ Upload Multiple image js End here  ================================================
     $(document).ready(function() {
         $('#cancel').on('click', function() {
+            alert("cancel");
             window.location.href = "<?= base_url('property') ?>";
             return false;
         });
-  
+
         // Load property type details if already selected (for edit form)
         var initialPropertyTypeId = $('#ptype').val();
 
