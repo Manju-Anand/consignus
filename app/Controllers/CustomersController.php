@@ -6,15 +6,21 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\CustomersModel;
 use App\Models\StaffModel;
+use App\Models\LeadsModel;
+use App\Models\FollwupModel;
 
 class CustomersController extends BaseController
 {
     public $custmodel;
     public $staffmodel;
+    public $leadmodel;
+    public $followupmodel;
     public function __construct()
     {
         $this->custmodel = new CustomersModel();
         $this->staffmodel = new StaffModel();
+        $this->leadmodel = new LeadsModel();
+        $this->followupmodel = new FollwupModel();
     }
     public function index()
     {
@@ -144,7 +150,7 @@ class CustomersController extends BaseController
     {
 
         $staffid = $this->request->getVar('aid');
- 
+
         $cdata = [
             'name' => $this->request->getVar('aname'),
             'requirement_type' => $this->request->getVar('requirement'),
@@ -160,13 +166,29 @@ class CustomersController extends BaseController
 
         ];
         $this->custmodel->updateCustomer($staffid, $cdata);
- 
+
         return redirect()->to('/customers');
     }
 
-    public function deletecustomer($aid){
-        $result =$this->custmodel->deleteCustomer($aid);
-        if ($result){
+    public function deletecustomer($aid)
+    {
+
+        $leadid = $this->custmodel
+            ->select('lead_id')
+            ->where('id', $aid) // or whatever your primary key column is
+            ->first()['lead_id'];
+
+        $this->leadmodel
+            ->update($leadid, ['leadstatus' => 'Started']);
+
+
+        $this->followupmodel
+            ->where('status', 'Converted')
+            ->where('leads_id', $leadid)
+            ->delete();
+
+        $result = $this->custmodel->deleteCustomer($aid);
+        if ($result) {
             return redirect()->to('/customers');
         }
     }

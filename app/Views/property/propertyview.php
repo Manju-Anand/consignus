@@ -79,7 +79,7 @@
 
                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab"
                     tabindex="0">
-                    <div class="row gy-4"  id="propertyListContainer">
+                    <div class="row gy-4" id="propertyListContainer">
                         <?php foreach ($properties as $property): ?>
                             <div class="col-xxl-3 col-md-4 col-sm-6">
                                 <div class="hover-scale-img border radius-16 overflow-hidden">
@@ -119,7 +119,7 @@
 
                 <?php foreach ($groupedProperties as $category => $items): ?>
                     <div class="tab-pane fade" id="pills-<?= strtolower($category) ?>" role="tabpanel" tabindex="0">
-                        <div class="row gy-4" >
+                        <div class="row gy-4">
                             <?php foreach ($items as $property): ?>
                                 <!-- Render property card here -->
 
@@ -130,9 +130,12 @@
                                                 class="hover-scale-img__img w-100 h-100 object-fit-cover">
                                         </div>
                                         <div class="py-16 px-24">
-                                            <h6 class="mb-4" style="font-size:18px !important;"><?= $property['title']; ?></h6>
+                                            <h6 class="mb-4" style="font-size:18px !important;">dfgdsf<?= $property['title']; ?></h6>
                                             <p class="mb-0 text-sm text-secondary-light"><?= $property['category']; ?></p>
+                                            <h6 class="mb-4" style="font-size:18px !important;"><?= $property['property_listing']; ?></h6>
+                                            <p class="mb-0 text-sm text-secondary-light"><?= $property['property_verify']; ?></p>
                                         </div>
+                                      
 
                                         <div class="d-flex align-items-center justify-content-between gap-10 py-16 px-24">
                                             <div class="d-flex align-items-center justify-content-between gap-10">
@@ -152,7 +155,19 @@
                                                             class="icon text-lg line-height-1"></iconify-icon>
                                                     </button></a>
                                             </div>
+
+                                            <!-- <div class="d-flex align-items-center justify-content-between gap-10">
+                                                <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
+                                                <span class="start-date text-secondary-light"><?= esc($property['property_listing']); ?>
+                                                </span>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between gap-10">
+                                                <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
+                                                <span class="start-date text-secondary-light"><?= esc($property['property_verify']); ?>
+                                                </span>
+                                            </div> -->
                                         </div>
+                                       
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -181,15 +196,15 @@
     }
 </script>
 <script>
-document.getElementById('searchInput').addEventListener('keyup', function () {
-    const search = this.value;
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        const search = this.value;
 
-    fetch('<?= base_url('ajax-search-property') ?>?search=' + encodeURIComponent(search))
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById('propertyListContainer').innerHTML = html;
-        });
-});
+        fetch('<?= base_url('ajax-search-property') ?>?search=' + encodeURIComponent(search))
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('propertyListContainer').innerHTML = html;
+            });
+    });
 </script>
 
 

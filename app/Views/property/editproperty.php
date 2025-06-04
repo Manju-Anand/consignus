@@ -33,24 +33,49 @@
                                     <input type="text" class="form-control border border-neutral-200 radius-8" id="ptitle" name="ptitle"
                                         placeholder="Enter Post Title" value="<?= esc($property['title']); ?>">
                                     <span class="text-danger"><?= display_errors($validation ?? null, 'ptitle'); ?></span>
-
-                                    <label class="form-label fw-bold text-neutral-900">Category: </label>
-                                    <select class="form-control form-select border border-neutral-200 radius-8" id="pcategory" name="pcategory">
-                                        <option value="Flat" <?php if ($property['category'] == "Flat") { ?> selected <?php } ?>>Flat</option>
-                                        <option <?php if ($property['category'] == "Villa") { ?> selected <?php } ?> value="Villa">Villa</option>
-                                        <option <?php if ($property['category'] == "Land") { ?> selected <?php } ?> value="Land">Land</option>
-                                        <option <?php if ($property['category'] == "Rental") { ?> selected <?php } ?> value="Rental">Rental</option>
-                                    </select>
-                                    <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-neutral-900" for="location">Location: </label>
+                                            <input type="text" class="form-control border border-neutral-200 radius-8" id="location" name="location"
+                                                placeholder="Enter Location" value="<?= esc($property['location']); ?>">
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'location'); ?></span>
 
 
-                                    <label class="form-label fw-bold text-neutral-900">Purpose: </label>
-                                    <select class="form-control form-select border border-neutral-200 radius-8" id="purpose" name="purpose">
-                                        <option <?php if ($property['purpose'] == "Sale") { ?> selected <?php } ?> value="Sale">Sale</option>
-                                        <option <?php if ($property['purpose'] == "Rent") { ?> selected <?php } ?> value="Rent">Rent</option>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-neutral-900" for="ownerno">Property Owner No: </label>
+                                            <input type="text" class="form-control border border-neutral-200 radius-8" id="ownerno" name="ownerno"
+                                                placeholder="Enter ownerno" value="<?= esc($property['ownerno']); ?>">
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'ownerno'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-neutral-900">Category: </label>
+                                            <select class="form-control form-select border border-neutral-200 radius-8" id="pcategory" name="pcategory">
+                                                <option value="Flat" <?php if ($property['category'] == "Flat") { ?> selected <?php } ?>>Flat</option>
+                                                <option <?php if ($property['category'] == "Villa") { ?> selected <?php } ?> value="Villa">Villa</option>
+                                                <option <?php if ($property['category'] == "Land") { ?> selected <?php } ?> value="Land">Land</option>
+                                                <option <?php if ($property['category'] == "Rental") { ?> selected <?php } ?> value="Rental">Rental</option>
+                                            </select>
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
 
-                                    </select>
-                                    <span class="text-danger"><?= display_errors($validation ?? null, 'purpose'); ?></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-neutral-900">Purpose: </label>
+                                            <select class="form-control form-select border border-neutral-200 radius-8" id="purpose" name="purpose">
+                                                <option <?php if ($property['purpose'] == "Sale") { ?> selected <?php } ?> value="Sale">Sale</option>
+                                                <option <?php if ($property['purpose'] == "Rent") { ?> selected <?php } ?> value="Rent">Rent</option>
+
+                                            </select>
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'purpose'); ?></span>
+
+                                        </div>
+                                    </div>
+
+
+
+
 
                                     <div class="row">
 
@@ -74,13 +99,34 @@
 
                                     </div>
 
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-neutral-900">Property Listing: </label>
+                                            <select class="form-control form-select border border-neutral-200 radius-8" id="plisting" name="plisting">
+                                                <option selected disabled>Select Property Listing</option>
+                                                <option <?php if ($property['property_listing'] == "Front-Listing") { ?> selected <?php } ?> value="Front-Listing">Front Listing</option>
+                                                <option <?php if ($property['property_listing'] == "Back-Listing") { ?> selected <?php } ?> value="Back-Listing">Back Listing</option>
+
+                                            </select>
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'plisting'); ?></span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-neutral-900">Property Verify: </label>
+                                            <select class="form-control form-select border border-neutral-200 radius-8" id="pverify" name="pverify">
+                                                <option selected disabled>Select Property Verify</option>
+                                                <option <?php if ($property['property_verify'] == "Verified") { ?> selected <?php } ?> value="Verified">Verified</option>
+                                                <option <?php if ($property['property_verify'] == "Not-Verified") { ?> selected <?php } ?> value="Not-Verified">Not-Verified</option>
+
+                                            </select>
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'pverify'); ?></span>
+
+                                        </div>
+                                    </div>
 
 
 
-                                    <label class="form-label fw-bold text-neutral-900" for="location">Location: </label>
-                                    <input type="text" class="form-control border border-neutral-200 radius-8" id="location" name="location"
-                                        placeholder="Enter Location" value="<?= esc($property['location']); ?>">
-                                    <span class="text-danger"><?= display_errors($validation ?? null, 'location'); ?></span>
+
 
 
                                 </div>
@@ -376,7 +422,7 @@
     // ================================================ Upload Multiple image js End here  ================================================
     $(document).ready(function() {
         $('#cancel').on('click', function() {
-            alert("cancel");
+
             window.location.href = "<?= base_url('property') ?>";
             return false;
         });

@@ -15,19 +15,7 @@
       display: none;
     }
   </style>
-  <!-- <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
-    <h6 class="fw-semibold mb-0">Add Blog</h6>
-    <ul class="d-flex align-items-center gap-2">
-      <li class="fw-medium">
-        <a href="index.html" class="d-flex align-items-center gap-1 hover-text-primary">
-          <iconify-icon icon="solar:home-smile-angle-outline" class="icon text-lg"></iconify-icon>
-          Dashboard
-        </a>
-      </li>
-      <li>-</li>
-      <li class="fw-medium">Add Blog</li>
-    </ul>
-  </div> -->
+
 
   <div class="row gy-4">
     <div class="col-lg-12">
@@ -50,22 +38,48 @@
                   placeholder="Enter Post Title" value="<?= set_value('ptitle'); ?>">
                 <span class="text-danger"><?= display_errors($validation ?? null, 'ptitle'); ?></span>
                 <!-- ******************************************************** -->
-                <label class="form-label fw-bold text-neutral-900">Category: </label>
-                <select class="form-control form-select border border-neutral-200 radius-8" id="pcategory" name="pcategory">
-                  <option value="Flat">Flat</option>
-                  <option value="Villa">Villa</option>
-                  <option value="Land">Land</option>
-                  <option value="Rental">Rental</option>
-                </select>
-                <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
-                <!-- ***************************** -->
-                <label class="form-label fw-bold text-neutral-900">Purpose: </label>
-                <select class="form-control form-select border border-neutral-200 radius-8" id="purpose" name="purpose">
-                  <option value="Sale">Sale</option>
-                  <option value="Rent">Rent</option>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold text-neutral-900" for="location">Location: </label>
+                    <input type="text" class="form-control border border-neutral-200 radius-8" id="location" name="location"
+                      placeholder="Enter Location" value="<?= set_value('location'); ?>">
+                    <span class="text-danger"><?= display_errors($validation ?? null, 'location'); ?></span>
 
-                </select>
-                <span class="text-danger"><?= display_errors($validation ?? null, 'purpose'); ?></span>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold text-neutral-900" for="ownerno">Property Owner No: </label>
+                    <input type="text" class="form-control border border-neutral-200 radius-8" id="ownerno" name="ownerno"
+                      placeholder="Enter ownerno" value="<?= set_value('ownerno'); ?>">
+                    <span class="text-danger"><?= display_errors($validation ?? null, 'ownerno'); ?></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold text-neutral-900">Category: </label>
+                    <select class="form-control form-select border border-neutral-200 radius-8" id="pcategory" name="pcategory">
+                      <option value="Flat">Flat</option>
+                      <option value="Villa">Villa</option>
+                      <option value="Land">Land</option>
+                      <option value="Rental">Rental</option>
+                      <option value="House">House</option>
+                    </select>
+                    <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
+
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold text-neutral-900">Purpose: </label>
+                    <select class="form-control form-select border border-neutral-200 radius-8" id="purpose" name="purpose">
+                      <option value="Sale">Sale</option>
+                      <option value="Rent">Rent</option>
+
+                    </select>
+                    <span class="text-danger"><?= display_errors($validation ?? null, 'purpose'); ?></span>
+
+                  </div>
+                </div>
+
+                <!-- ***************************** -->
+
                 <!-- *********************************************** -->
                 <div class="row">
                   <div class="col-md-6">
@@ -82,10 +96,32 @@
                   </div>
                 </div>
                 <!-- ********************************************** -->
-                <label class="form-label fw-bold text-neutral-900" for="location">Location: </label>
-                <input type="text" class="form-control border border-neutral-200 radius-8" id="location" name="location"
-                  placeholder="Enter Location" value="<?= set_value('location'); ?>">
-                <span class="text-danger"><?= display_errors($validation ?? null, 'location'); ?></span>
+
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold text-neutral-900">Property Listing: </label>
+                    <select class="form-control form-select border border-neutral-200 radius-8" id="plisting" name="plisting">
+                      <option selected disabled>Select Property Listing</option>
+                      <option value="Front-Listing">Front Listing</option>
+                      <option value="Back-Listing">Back Listing</option>
+
+                    </select>
+                    <span class="text-danger"><?= display_errors($validation ?? null, 'plisting'); ?></span>
+
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold text-neutral-900">Property Verify: </label>
+                    <select class="form-control form-select border border-neutral-200 radius-8" id="pverify" name="pverify">
+                      <option selected disabled>Select Property Verify</option>
+                      <option value="Verified">Verified</option>
+                      <option value="Not-Verified">Not-Verified</option>
+
+                    </select>
+                    <span class="text-danger"><?= display_errors($validation ?? null, 'pverify'); ?></span>
+
+                  </div>
+                </div>
 
 
 

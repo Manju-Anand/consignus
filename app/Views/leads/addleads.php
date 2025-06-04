@@ -72,6 +72,25 @@
                                     </div>
                                     <span class="text-danger"><?= display_errors($validation ?? null, 'budget'); ?></span>
                                 </div>
+
+                                  <div class="col-sm-12">
+                                    <div class="mb-20">
+                                        <label for="agents" class="form-label fw-semibold text-primary-light text-sm mb-8">
+                                            Agents
+                                        </label>
+                                        <select class="form-control form-control-sm radius-8 form-select" id="agents" name="agents">
+                                            <option selected disabled>Select Agent</option>
+                                            <?php if (!empty($agents)) : $u = 0;
+                                                foreach ($agents as $agents) :  $u++; ?>
+                                                    <option value="<?= $agents['id']; ?>"><?= $agents['name']; ?></option>
+                                                <?php endforeach; ?>
+
+                                            <?php endif; ?>
+
+                                        </select>
+                                        <span class="text-danger"><?= display_errors($validation ?? null, 'agents'); ?></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

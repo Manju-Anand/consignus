@@ -39,6 +39,13 @@ $routes->get('/edit-staff/(:num)', 'StaffController::editstaff/$1');
 $routes->post('editstaff-form', 'StaffController::updatestaff'); 
 $routes->get('/delete-staff/(:num)', 'StaffController::deletestaff/$1');
 
+$routes->get('/agents', 'AgentController::index');
+$routes->get('/add-agents', 'AgentController::addagent');
+$routes->post('agentsadd-form', 'AgentController::saveagent');
+$routes->get('/edit-agents/(:num)', 'AgentController::editagents/$1');
+$routes->post('editagents-form', 'AgentController::updateagents'); 
+$routes->get('/delete-agents/(:num)', 'AgentController::deletesagents/$1');
+
 $routes->get('/leads', 'LeadController::index');
 $routes->get('/add-leads', 'LeadController::addleads');
 $routes->post('leadsadd-form', 'LeadController::saveleads'); 

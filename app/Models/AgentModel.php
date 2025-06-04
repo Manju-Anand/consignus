@@ -4,30 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class LeadsModel extends Model
+class AgentModel extends Model
 {
-    protected $table            = 'leads';
+    protected $table            = 'agents';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'id',
-        'name',
-        'phone',
-        'email',
-        'address',
-        'requirement_type',
-        'budget_range',
-        'preferred_location',
-        'lead_source',
-        'enquiry_date',
-        'assigned_staff_id',
-        'created_at',
-        'leadstatus',
-        'agentid'
-    ];
+    protected $allowedFields    = ['id', 'name', 'address', 'phoneno', 'created', 'modified'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -58,20 +43,4 @@ class LeadsModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getleads($id = null)
-    {
-        $builder = $this->db->table('leads');
-        $builder->select('leads.*,staff.full_name as sname,agents.name as agentname');
-        $builder->join('staff', 'staff.id = leads.assigned_staff_id', 'left');
-        $builder->join('agents', 'agents.id = leads.agentid', 'left');
-        if ($id) {
-            $builder->where('leads.id', $id);
-            $query = $builder->get();
-            return $query->getRowArray(); // returns a single associative array
-        } else {
-            $query = $builder->get();
-            return $query->getResultArray(); // returns multiple records
-        }
-    }
 }

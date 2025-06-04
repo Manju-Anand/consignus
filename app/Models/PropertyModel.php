@@ -27,7 +27,10 @@ class PropertyModel extends Model
         'is_featured',
         'created_at',
         'propertytype_id',
-        'no_of_property'
+        'no_of_property',
+        'ownerno',
+        'property_listing',
+        'property_verify'
     ];
 
     protected bool $allowEmptyInserts = false;

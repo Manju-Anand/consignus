@@ -6,15 +6,21 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\LeadsModel;
 use App\Models\StaffModel;
+use App\Models\AgentModel;
+use App\Models\FollwupModel;
 
 class LeadController extends BaseController
 {
     public $leadmodel;
     public $staffmodel;
+    public $agentmodel;
+    public $followupmodel;
     public function __construct()
     {
         $this->leadmodel = new LeadsModel();
         $this->staffmodel = new StaffModel();
+        $this->agentmodel = new AgentModel();
+        $this->followupmodel = new FollwupModel();
     }
     public function index()
     {
@@ -41,11 +47,12 @@ class LeadController extends BaseController
             return view('loginview');
         }
         $staffs = $this->staffmodel->getStaff();
-
+        $agents = $this->agentmodel->findAll();
         $data = [
             "meta_title" => "Consignus",
             "meta_description" => "Consignus",
             "staffs" => $staffs,
+            "agents" => $agents,
         ];
 
         return $this->renderView('leads/addleads', $data);
@@ -77,11 +84,13 @@ class LeadController extends BaseController
         if (!$this->validate($validation->getRules())) {
             // Add validation errors to $data array
             $staffs = $this->staffmodel->getStaff();
+            $agents = $this->agentmodel->findAll();
             $data = [
                 "meta_title" => "Consignus",
                 "meta_description" => "Consignus",
                 "validation" => $this->validator,
                 "staffs" => $staffs,
+                "agents" => $agents,
             ];
 
             return $this->renderView('leads/addleads', $data);
@@ -102,7 +111,7 @@ class LeadController extends BaseController
                 'assigned_staff_id' => $this->request->getVar('astaff'),
                 'created_at' => date('Y-m-d h:i:s'),
                 'leadstatus' => 'Started',
-
+                'agentid' => $this->request->getVar('agents'),
             ];
 
 
@@ -121,8 +130,8 @@ class LeadController extends BaseController
         if (!$cust) {
             return $this->response->setStatusCode(404)->setBody('leads not found');
         }
- // Log the customer details
-    log_message('info', 'Lead details: ' . print_r($cust, true));
+        // Log the customer details
+        log_message('info', 'Lead details: ' . print_r($cust, true));
         return view('leads/leadview_modal', ['cust' => $cust]);
     }
 
@@ -130,11 +139,14 @@ class LeadController extends BaseController
     {
         $custlist = $this->leadmodel->getleads($pid);
         $staffs = $this->staffmodel->getStaff();
+        $agents = $this->agentmodel->findAll();
+
         $data = [
             "meta_title" => "Consignus",
             "meta_description" => "Consignus",
             "custlist" => $custlist,
             "staffs" => $staffs,
+            "agents" => $agents,
 
         ];
         // echo "<pre>";
@@ -147,7 +159,7 @@ class LeadController extends BaseController
     {
 
         $staffid = $this->request->getVar('aid');
- 
+
         $cdata = [
             'name' => $this->request->getVar('aname'),
             'requirement_type' => $this->request->getVar('requirement'),
@@ -160,16 +172,30 @@ class LeadController extends BaseController
             'enquiry_date' =>  $this->request->getVar('edate'),
             'assigned_staff_id' => $this->request->getVar('astaff'),
             'created_at' => date('Y-m-d h:i:s'),
-
+            'agentid' => $this->request->getVar('agents'),
+            'leadstatus' => $this->request->getVar('leadstatus'),
         ];
         $this->leadmodel->update($staffid, $cdata);
- 
+
+        $leadstatus = $this->request->getVar('leadstatus');
+        if ($leadstatus == 'Started') {
+
+            $this->followupmodel
+                ->where('status', 'Converted')
+                ->where('leads_id', $staffid)
+                ->delete();
+        }
+
+
+
+
         return redirect()->to('/leads');
     }
 
-    public function deleteleads($aid){
-        $result =$this->leadmodel->delete($aid);
-        if ($result){
+    public function deleteleads($aid)
+    {
+        $result = $this->leadmodel->delete($aid);
+        if ($result) {
             return redirect()->to('/leads');
         }
     }

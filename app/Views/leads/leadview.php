@@ -51,6 +51,7 @@
                             <th scope="col">Requirement</th>
                             <th scope="col">Location</th>
                             <th scope="col">Budget</th>
+                            <th scope="col">Agent</th>
                             <th scope="col">Assigned Staff</th>
                             <th scope="col">Lead Status</th>
                             <th scope="col">Action</th>
@@ -67,8 +68,9 @@
                                     <td><?= esc($customer['requirement_type']) ?></td>
                                     <td><?= esc($customer['preferred_location']) ?></td>
                                     <td><?= esc($customer['budget_range']) ?></td>
+                                    <td><?= esc($customer['agentname']) ?></td>
                                     <td><?= esc($customer['sname']) ?></td>
-                                     <td><?= esc($customer['leadstatus']) ?></td>
+                                    <td><?= esc($customer['leadstatus']) ?></td>
                                     <td>
                                         <?php if (isset($customer['leadstatus']) && $customer['leadstatus'] !== 'Converted') { ?>
                                             <a href="<?= base_url('followup-leads/' . $customer['id']) ?>" data-id="<?= $customer['id']; ?>" title="Follow-Up"

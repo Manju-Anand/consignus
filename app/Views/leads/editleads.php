@@ -80,6 +80,29 @@
                                         </div>
                                         <span class="text-danger"><?= display_errors($validation ?? null, 'budget'); ?></span>
                                     </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="mb-20">
+                                            <label for="agents" class="form-label fw-semibold text-primary-light text-sm mb-8">
+                                                Agents <span class="text-danger-600">*</span>
+                                            </label>
+                                            <select class="form-control form-control-sm form-select" id="agents" name="agents">
+                                                <option selected disabled>Select Agent</option>
+                                                <?php if (!empty($agents)) : $u = 0;
+                                                    foreach ($agents as $agents) :  $u++; ?>
+                                                        <option value="<?= $agents['id']; ?>" <?= ($custlist['agentid'] == $agents['id']) ? 'selected' : ''; ?>>
+                                                            <?= $agents['name']; ?>
+                                                        </option>
+
+                                                    <?php endforeach; ?>
+
+                                                <?php endif; ?>
+
+                                            </select>
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'agents'); ?></span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -173,6 +196,21 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-12">
+                                        <div class="mb-20">
+                                            <label for="leadstatus" class="form-label fw-semibold text-primary-light text-sm mb-8">
+                                                Lead Status
+                                            </label>
+                                            <select class="form-control form-control-sm form-select" id="leadstatus" name="leadstatus">
+                                                <option disabled>Select Lead Status</option>
+                                                <option <?php if ($custlist['leadstatus'] == "Converted") { ?> selected <?php }  ?> value="Converted">Converted</option>
+                                                <option <?php if ($custlist['leadstatus'] == "Started") { ?> selected <?php }  ?> value="Started">Started</option>
+
+                                            </select>
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'leadstatus'); ?></span>
+                                        </div>
+                                    </div>
+
 
 
                                 </div>
@@ -184,7 +222,7 @@
                         <div class="d-flex align-items-center justify-content-center gap-3 mt-24">
 
                             <button type="submit" name="submit" class="btn btn-primary border border-primary-600 text-md px-24 py-8 radius-8">
-                               Update Change
+                                Update Change
                             </button>
                             <button type="reset" id="cancel" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-24 py-8 radius-8">
                                 Cancel
@@ -214,22 +252,7 @@
             return char.toUpperCase();
         });
     }
-    // ================== Image Upload Js Start ===========================
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
-                $('#imagePreview').hide();
-                $('#imagePreview').fadeIn(650);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#imageUpload").change(function() {
-        readURL(this);
-    });
-    // ================== Image Upload Js End ===========================
+   
     // ================== Password Show Hide Js Start ==========
     function initializePasswordToggle(toggleSelector) {
         $(toggleSelector).on('click', function() {

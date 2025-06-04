@@ -258,6 +258,13 @@
           </a>
 
         </li>
+        <li>
+          <a href="<?= base_url(); ?>agents">
+            <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
+            <span>Agents</span>
+          </a>
+
+        </li>
 
 
 

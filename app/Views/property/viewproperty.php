@@ -81,6 +81,7 @@
                             <p class="text-neutral-500 mb-16">Location: <?= esc($property['location']); ?></p>
                             <p class="text-neutral-500 mb-16">Price: <?= esc($property['price']); ?></p>
                             <p class="text-neutral-500 mb-16">Purpose: <?= esc($property['purpose']); ?></p>
+                             <p class="text-neutral-500 mb-16">Property Owner No: <?= esc($property['ownerno']); ?></p>
                         </div>
                     </div>
                 </div>

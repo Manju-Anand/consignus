@@ -114,6 +114,9 @@ class PropertyController extends BaseController
             'is_featured' => $this->request->getVar('featured'),
             'created_at' => date('Y-m-d h:i:s'),
             'no_of_property' => $this->request->getVar('propertyno'),
+            'ownerno' => $this->request->getVar('ownerno'),
+            'property_listing' => $this->request->getVar('plisting'),
+            'property_verify' => $this->request->getVar('pverify'),
 
         ];
         $this->logData('info', 'property Data array', $cdata);
@@ -219,6 +222,9 @@ class PropertyController extends BaseController
             'is_featured' => $this->request->getVar('featured'),
             'created_at' => date('Y-m-d h:i:s'),
             'no_of_property' => $this->request->getVar('propertyno'),
+            'ownerno' => $this->request->getVar('ownerno'),
+            'property_listing' => $this->request->getVar('plisting'),
+            'property_verify' => $this->request->getVar('pverify'),
         ];
         $this->propertymodel->updateproperty($ppropertyid, $cdata);
 
