@@ -102,9 +102,10 @@ class TeamworkController extends BaseController
         $this->logData('info', 'Data array', $data);
         return $this->renderView('lbm/lbmcontribution', $data);
     }
-    public function companyliability() {
+    public function companyliability()
+    {
 
-        
+
         $liabilityList = $this->teamupdatemodel->companyliabilitylist();
         $data = [
             "meta_title" => "Consignus",
@@ -114,6 +115,49 @@ class TeamworkController extends BaseController
         ];
         $this->logData('info', 'Data array', $data);
         return $this->renderView('lbm/companyliabilitylist', $data);
+    }
+    public function liabilityconvertion()
+    {
 
+
+        $liabilityList = $this->teamupdatemodel->companyliabilitylist();
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+
+            "liabilityList" => $liabilityList,
+        ];
+        // $this->logData('info', 'Data array', $data);
+        return $this->renderView('accounts/liabilitylistconvertion', $data);
+    }
+
+    public function saveSelected()
+    {
+        $data = $this->request->getJSON(true);
+        $this->logData('info', 'Data array', $data);
+        if (!isset($data['data']) || !is_array($data['data'])) {
+            return $this->response->setJSON(['success' => false]);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('selected_liabilities');
+
+        foreach ($data['data'] as $row) {
+            $builder->insert([
+                'twu_id' => $row['twu_id'] ?? null,
+                'lname' => $row['lname'] ?? '',
+                'title' => $row['title'] ?? '',
+                'role' => $row['role'] ?? '',
+                'remuneration' => $row['remuneration'] ?? null,
+                'remuneration_date' => $row['remuneration_date'] ?? null,
+                'expense_type' => $row['expense_type'] ?? '',
+                'expense_amount' => $row['expense_amount'] ?? null,
+                'expense_date' => $row['expense_date'] ?? null,
+                'expense_status' => $row['expense_status'] ?? '',
+                'work_status' => $row['work_status'] ?? '',
+            ]);
+        }
+
+        return $this->response->setJSON(['success' => true]);
     }
 }

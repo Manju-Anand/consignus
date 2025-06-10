@@ -34,6 +34,8 @@ $routes->post('data-staff-manager/delete', 'UserController::delete');
 $routes->get('data-staff-truncate', 'UserController::truncateTables');
 $routes->post('data-staff-truncate', 'UserController::truncateTables');
 $routes->get('resizeAllPropertyImages', 'PropertyController::resizeAllPropertyImages');
+$routes->get('admin/swap-property-folders', 'PropertyController::swapPropertyFolders');
+
 
 $routes->get('/edit-staff/(:num)', 'StaffController::editstaff/$1');
 $routes->post('editstaff-form', 'StaffController::updatestaff'); 
@@ -115,6 +117,8 @@ $routes->get('/edit-teamassign/(:num)', 'TeamworkController::teamworkupdate/$1')
 $routes->post('assignwork-updation', 'TeamworkController::saveteamworkupdate'); 
 $routes->get('/lbm-contribution', 'TeamworkController::lbmcontribution'); 
 $routes->get('/company-liability-list', 'TeamworkController::companyliability'); 
+$routes->get('/liability-convertion', 'TeamworkController::liabilityconvertion'); 
+$routes->post('/liability/saveSelected', 'TeamworkController::saveSelected'); 
 
 $routes->get('/company-valuation', 'ShareController::index');
 $routes->post('/valuation/saveAll', 'ShareController::saveAll');

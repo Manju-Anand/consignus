@@ -166,6 +166,8 @@
           <ul class="sidebar-submenu">
             <li> <a href="<?= base_url(); ?>transactions-list"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Transactions</a>
             </li>
+              <li> <a href="<?= base_url(); ?>liability-convertion"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Liability Convertion</a>
+            </li>
             <li>
               <a href="<?= base_url(); ?>income-and-expenditure"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
               Income & Expenditure</a>

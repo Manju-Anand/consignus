@@ -20,7 +20,7 @@
     <div class="card h-100 p-0 radius-12 overflow-hidden">
 
         <div class="card-body p-40">
-            <h6 class="fw-semibold mb-3"><img src="<?= base_url('public/assets/images/rating.png') ?>" style="width:30px;height:30px;"> CUSTOMER DETAILS EDIT</h6>
+            <h6 class="fw-semibold mb-3"><img src="<?= base_url('public/assets/images/rating.png') ?>" style="width:30px;height:30px;"> LEAD DETAILS EDIT</h6>
             <!-- <hr> -->
 
             <form action="<?= site_url('leadsedit-form') ?>" method="post" enctype="multipart/form-data">
@@ -103,6 +103,22 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-12">
+                                        <div class="mb-20">
+                                            <label for="lpurpose" class="form-label fw-semibold text-primary-light text-sm mb-8">
+                                                Lead Purpose <span class="text-danger-600">*</span>
+                                            </label>
+                                            <select class="form-control form-control-sm radius-8 form-select" id="lpurpose" name="lpurpose">
+                                                <option disabled>Select Lead Purpose</option>
+                                                <option <?php if ($custlist['lead_purpose'] == "Rental") { ?> selected <?php }  ?> value="Rental">Rental</option>
+                                                <option <?php if ($custlist['lead_purpose'] == "Buyer") { ?> selected <?php }  ?> value="Buyer">Buyer</option>
+
+
+                                            </select>
+                                            <span class="text-danger"><?= display_errors($validation ?? null, 'lpurpose'); ?></span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -124,9 +140,8 @@
                                                 <option <?php if ($custlist['requirement_type'] == "Flat") { ?> selected <?php }  ?> value="Flat">Flat</option>
                                                 <option <?php if ($custlist['requirement_type'] == "Villa") { ?> selected <?php }  ?> value="Villa">Villa</option>
                                                 <option <?php if ($custlist['requirement_type'] == "Land") { ?> selected <?php }  ?> value="Land">Land</option>
-                                                <option <?php if ($custlist['requirement_type'] == "Rental") { ?> selected <?php }  ?> value="Rental">Rental</option>
-                                                <option <?php if ($custlist['requirement_type'] == "Airport Pickup") { ?> selected <?php }  ?> value="Airport Pickup">Airport Pickup</option>
-                                                <option <?php if ($custlist['requirement_type'] == "Gifting") { ?> selected <?php }  ?> value="Gifting">Gifting</option>
+                                                <option <?php if ($custlist['requirement_type'] == "House") { ?> selected <?php }  ?> value="Rental">House</option>
+
                                             </select>
                                             <span class="text-danger"><?= display_errors($validation ?? null, 'requirement'); ?></span>
                                         </div>
@@ -162,6 +177,13 @@
                                             </select>
                                             <span class="text-danger"><?= display_errors($validation ?? null, 'lead'); ?></span>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="mb-20">
+                                            <label for="refername" class="form-label fw-semibold text-primary-light text-sm mb-8">Referer Name </label>
+                                            <input type="text" class="form-control form-control-sm radius-8" id="refername" placeholder="Enter Referer Name " name="refername" value="<?= esc($custlist['referername']); ?>" readonly>
+                                        </div>
+                                        <span class="text-danger"><?= display_errors($validation ?? null, 'refername'); ?></span>
                                     </div>
 
                                     <div class="col-sm-12">
@@ -252,7 +274,7 @@
             return char.toUpperCase();
         });
     }
-   
+
     // ================== Password Show Hide Js Start ==========
     function initializePasswordToggle(toggleSelector) {
         $(toggleSelector).on('click', function() {

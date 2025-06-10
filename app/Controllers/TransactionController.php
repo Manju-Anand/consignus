@@ -132,7 +132,7 @@ class TransactionController extends BaseController
             'created_at'   => date('Y-m-d H:i:s'),
         ];
 
-        $this->transmodel->update( $tid, $headdata);
+        $this->transmodel->update($tid, $headdata);
 
         return redirect()->to('/transactions-list')->with('success', 'Transaction Updated Successfully.');
     }
@@ -143,19 +143,35 @@ class TransactionController extends BaseController
 
             return view('loginview');
         }
-       
-   
+
+
         $start_date = $this->request->getGet('start_date') ?? '';
         $end_date = $this->request->getGet('end_date') ?? '';
 
         $summary =  $this->transmodel->getIncomeExpenditureSummary($start_date, $end_date);
+
+        $totalIncome = 0;
+        $totalExpense = 0;
+
+        foreach ($summary as $row) {
+            if (strtolower($row['transaction_type']) === 'income') {
+                $totalIncome += $row['total'];
+            } elseif (strtolower($row['transaction_type']) === 'expense') {
+                $totalExpense += $row['total'];
+            }
+        }
+
+        $balance = $totalIncome - $totalExpense;
 
         $data = [
             "meta_title" => "Consignus",
             "meta_description" => "Consignus",
             "summary" => $summary,
             "start_date" => $start_date,
-            "end_date" => $end_date
+            "end_date" => $end_date,
+            'total_income' => $totalIncome,
+            'total_expense' => $totalExpense,
+            'balance' => $balance,
         ];
         // return view('accounts/incomeexpenditure', $data);
         // return view('accounts/incomeexpenditure', [

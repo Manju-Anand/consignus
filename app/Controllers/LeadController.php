@@ -112,6 +112,8 @@ class LeadController extends BaseController
                 'created_at' => date('Y-m-d h:i:s'),
                 'leadstatus' => 'Started',
                 'agentid' => $this->request->getVar('agents'),
+                'lead_purpose' => $this->request->getVar('lpurpose'),
+                'referername' => $this->request->getVar('refername'),
             ];
 
 
@@ -174,6 +176,8 @@ class LeadController extends BaseController
             'created_at' => date('Y-m-d h:i:s'),
             'agentid' => $this->request->getVar('agents'),
             'leadstatus' => $this->request->getVar('leadstatus'),
+            'lead_purpose' => $this->request->getVar('lpurpose'),
+            'referername' => $this->request->getVar('refername'),
         ];
         $this->leadmodel->update($staffid, $cdata);
 

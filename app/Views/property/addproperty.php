@@ -71,7 +71,7 @@
                     <select class="form-control form-select border border-neutral-200 radius-8" id="purpose" name="purpose">
                       <option value="Sale">Sale</option>
                       <option value="Rent">Rent</option>
-
+                      <option value="Home-Stay">Home-Stay</option>
                     </select>
                     <span class="text-danger"><?= display_errors($validation ?? null, 'purpose'); ?></span>
 

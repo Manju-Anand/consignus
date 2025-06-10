@@ -66,7 +66,7 @@
                                             <select class="form-control form-select border border-neutral-200 radius-8" id="purpose" name="purpose">
                                                 <option <?php if ($property['purpose'] == "Sale") { ?> selected <?php } ?> value="Sale">Sale</option>
                                                 <option <?php if ($property['purpose'] == "Rent") { ?> selected <?php } ?> value="Rent">Rent</option>
-
+                                                <option <?php if ($property['purpose'] == "Home-Stay") { ?> selected <?php } ?> value="Home-Stay">Home-Stay</option>
                                             </select>
                                             <span class="text-danger"><?= display_errors($validation ?? null, 'purpose'); ?></span>
 

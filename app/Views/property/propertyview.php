@@ -35,6 +35,24 @@
         $groupedProperties[$category][] = $property;
     }
     ?>
+    <style>
+        .image-wrapper {
+            width: 268px;
+            height: 194px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f0f0f0;
+            /* optional */
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #e0e0e0;
+            /* to fill blank areas */
+        }
+    </style>
 
     <div class="card h-100 p-0 radius-12 overflow-hidden">
         <div class="card-header border-bottom-0 pb-0 pt-0 px-0">
@@ -83,21 +101,62 @@
                         <?php foreach ($properties as $property): ?>
                             <div class="col-xxl-3 col-md-4 col-sm-6">
                                 <div class="hover-scale-img border radius-16 overflow-hidden">
-                                    <div class="max-h-266-px overflow-hidden">
+                                    <!-- <div class="max-h-266-px overflow-hidden"> -->
+                                    <div class="image-wrapper">
                                         <img src="<?= base_url(); ?>public/uploads/property/<?= $property['image_path']; ?>" alt=""
                                             class="hover-scale-img__img w-100 h-100 object-fit-cover">
+
                                     </div>
                                     <div class="py-16 px-24">
                                         <h6 class="mb-4" style="font-size:18px !important;"><?= $property['title']; ?></h6>
-                                        <p class="mb-0 text-sm text-secondary-light"><?= $property['category']; ?></p>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <p class="mb-0 text-sm text-secondary-light"><?= $property['category']; ?></p>
+                                                <p class="mb-4" style="font-size:18px !important;font-weight:bold;color:brown;"><?= $property['property_listing']; ?></p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
+                                                <span class="start-date text-secondary-light" style="font-size:10px;"><?= date('d-m-Y', strtotime($property['created_at'])); ?>
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+
                                     </div>
 
                                     <div class="d-flex align-items-center justify-content-between gap-10 py-16 px-24">
                                         <div class="d-flex align-items-center justify-content-between gap-10">
-                                            <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
-                                            <span class="start-date text-secondary-light"><?= date('d-m-Y', strtotime($property['created_at'])); ?>
-                                            </span>
+
+
+                                            <?php if ($property['property_verify'] == "Verified"): ?>
+                                                <img src="<?= base_url(); ?>public/assets/images/check-mark.svg" alt="" width="20%">
+                                            <?php else : ?>
+                                                <img src="<?= base_url(); ?>public/assets/images/remove.svg" alt="" width="20%">
+
+                                            <?php endif; ?>
+
+                                            <?php if ($property['purpose'] == "Sale"): ?>
+                                                <span class="badge text-sm fw-semibold text-primary-600 bg-primary-100 px-20 py-9 radius-4 text-white">
+                                                    For <?= $property['purpose']; ?>
+                                                </span>
+
+                                            <?php elseif ($property['purpose'] == "Home-Stay"): ?>
+                                                <span class="badge text-sm fw-semibold text-warning-600 bg-warning-100 px-20 py-9 radius-4 text-white">
+                                                    For <?= $property['purpose']; ?>
+                                                </span>
+
+                                            <?php else: ?>
+                                                <span class="badge text-sm fw-semibold text-lilac-600 bg-lilac-100 px-20 py-9 radius-4 text-white">
+                                                    For <?= $property['purpose']; ?>
+                                                </span>
+                                            <?php endif; ?>
+
                                         </div>
+
+
+
+
                                         <div class="d-flex align-items-center justify-content-between gap-10">
                                             <a href="<?= base_url('view-property/' . $property['id']) ?>" title="View Property Details"> <button type="button" class="card-edit-button text-warning-600">
                                                     <iconify-icon icon="iconamoon:eye-light" class="icon text-lg line-height-1"></iconify-icon>
@@ -125,29 +184,62 @@
 
                                 <div class="col-xxl-3 col-md-4 col-sm-6">
                                     <div class="hover-scale-img border radius-16 overflow-hidden">
-                                        <div class="max-h-266-px overflow-hidden">
+                                        <!-- <div class="max-h-266-px overflow-hidden"> -->
+                                        <div class="image-wrapper">
                                             <img src="<?= base_url(); ?>public/uploads/property/<?= $property['image_path']; ?>" alt=""
                                                 class="hover-scale-img__img w-100 h-100 object-fit-cover">
                                         </div>
                                         <div class="py-16 px-24">
-                                            <h6 class="mb-4" style="font-size:18px !important;">dfgdsf<?= $property['title']; ?></h6>
-                                            <p class="mb-0 text-sm text-secondary-light"><?= $property['category']; ?></p>
-                                            <h6 class="mb-4" style="font-size:18px !important;"><?= $property['property_listing']; ?></h6>
-                                            <p class="mb-0 text-sm text-secondary-light"><?= $property['property_verify']; ?></p>
+                                            <h6 class="mb-4" style="font-size:18px !important;"><?= $property['title']; ?></h6>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <p class="mb-0 text-sm text-secondary-light"><?= $property['category']; ?></p>
+                                                    <p class="mb-4" style="font-size:18px !important;font-weight:bold;color:brown;"><?= $property['property_listing']; ?></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
+                                                    <span class="start-date text-secondary-light" style="font-size:10px;"><?= date('d-m-Y', strtotime($property['created_at'])); ?>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
                                         </div>
-                                      
 
                                         <div class="d-flex align-items-center justify-content-between gap-10 py-16 px-24">
                                             <div class="d-flex align-items-center justify-content-between gap-10">
-                                                <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
-                                                <span class="start-date text-secondary-light"><?= date('d-m-Y', strtotime($property['created_at'])); ?>
-                                                </span>
+
+
+                                                <?php if ($property['property_verify'] == "Verified"): ?>
+                                                    <img src="<?= base_url(); ?>public/assets/images/check-mark.svg" alt="" width="30%">
+                                                <?php else : ?>
+                                                    <img src="<?= base_url(); ?>public/assets/images/remove.svg" alt="" width="30%">
+
+                                                <?php endif; ?>
+
+                                                <?php if ($property['purpose'] == "Sale"): ?>
+                                                    <span class="badge text-sm fw-semibold text-primary-600 bg-primary-100 px-20 py-9 radius-4 text-white">
+                                                        For <?= $property['purpose']; ?>
+                                                    </span>
+
+                                                <?php elseif ($property['purpose'] == "Home-Stay"): ?>
+                                                    <span class="badge text-sm fw-semibold text-warning-600 bg-warning-100 px-20 py-9 radius-4 text-white">
+                                                        For <?= $property['purpose']; ?>
+                                                    </span>
+
+                                                <?php else: ?>
+                                                    <span class="badge text-sm fw-semibold text-lilac-600 bg-lilac-100 px-20 py-9 radius-4 text-white">
+                                                        For <?= $property['purpose']; ?>
+                                                    </span>
+                                                <?php endif; ?>
+
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between gap-10">
                                                 <a href="<?= base_url('view-property/' . $property['id']) ?>" title="View Property Details"> <button type="button" class="card-edit-button text-warning-600">
                                                         <iconify-icon icon="iconamoon:eye-light" class="icon text-lg line-height-1"></iconify-icon>
                                                     </button></a>
-                                                <a href="<?= base_url('edit-property/' . $property['id']) ?>" title="Edit Property Details"> <button type="button" class="card-edit-button text-success-600">
+                                                <a href="<?= base_url('edit-property/' . $property['id']) ?>" title="Edit Customer Details" title="Edit Property Details"> <button type="button" class="card-edit-button text-success-600">
                                                         <iconify-icon icon="lucide:edit" class="icon text-lg line-height-1"></iconify-icon>
                                                     </button></a>
                                                 <a href="javascript:void(0);" onclick="confirmDelete(<?= $property['id']; ?>)" title="Delete Property"> <button type="button" class="card-delete-button text-danger-600">
@@ -155,19 +247,8 @@
                                                             class="icon text-lg line-height-1"></iconify-icon>
                                                     </button></a>
                                             </div>
-
-                                            <!-- <div class="d-flex align-items-center justify-content-between gap-10">
-                                                <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
-                                                <span class="start-date text-secondary-light"><?= esc($property['property_listing']); ?>
-                                                </span>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-between gap-10">
-                                                <iconify-icon icon="solar:calendar-outline" class="text-primary-light"></iconify-icon>
-                                                <span class="start-date text-secondary-light"><?= esc($property['property_verify']); ?>
-                                                </span>
-                                            </div> -->
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                             <?php endforeach; ?>

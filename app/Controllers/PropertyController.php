@@ -126,38 +126,38 @@ class PropertyController extends BaseController
 
         $files = $this->request->getFileMultiple('upload-file-multiple');
 
-        // if ($files) {
-        //     foreach ($files as $file) {
-        //         if ($file->isValid() && !$file->hasMoved()) {
-        //             $newName = $file->getRandomName();
-        //             $file->move(FCPATH . 'public/uploads/property/', $newName);
-
-        //             $imagedata = [
-        //                 'property_id' => $property_id,
-        //                 'image_path' => $newName,
-        //                 'created_at' => date('Y-m-d h:i:s'),
-        //             ];
-        //             $this->logData('info', 'property imagedata array', $imagedata);
-        //             $this->pimagesmodel->insert($imagedata);
-        //         }
-        //     }
-        // }
         if ($files) {
             foreach ($files as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
-                    $resizedName = $this->processImage($file); // 👈 Process each image
+                    $newName = $file->getRandomName();
+                    $file->move(FCPATH . 'public/uploads/property/', $newName);
 
                     $imagedata = [
                         'property_id' => $property_id,
-                        'image_path' => $resizedName,
+                        'image_path' => $newName,
                         'created_at' => date('Y-m-d h:i:s'),
                     ];
-
                     $this->logData('info', 'property imagedata array', $imagedata);
                     $this->pimagesmodel->insert($imagedata);
                 }
             }
         }
+        // if ($files) {
+        //     foreach ($files as $file) {
+        //         if ($file->isValid() && !$file->hasMoved()) {
+        //             $resizedName = $this->processImage($file); // 👈 Process each image
+
+        //             $imagedata = [
+        //                 'property_id' => $property_id,
+        //                 'image_path' => $resizedName,
+        //                 'created_at' => date('Y-m-d h:i:s'),
+        //             ];
+
+        //             $this->logData('info', 'property imagedata array', $imagedata);
+        //             $this->pimagesmodel->insert($imagedata);
+        //         }
+        //     }
+        // }
 
 
         return redirect()->to('property');
@@ -323,7 +323,7 @@ class PropertyController extends BaseController
         return view('property/property_cards', ['properties' => $properties]);
     }
 
-
+// ******************* this function is used to crop image to a specific dimension while uploading **************************
     private function processImage($file, $targetWidth = 720, $targetHeight = 520)
     {
         $image = \Config\Services::image();
@@ -370,9 +370,11 @@ class PropertyController extends BaseController
 
 
 
+ 
+    // ********************* the below 2 functions to resize the pictures in a folder to a specific dimension altogether********************
     public function resizeAllPropertyImages()
     {
-        helper('filesystem'); // if needed
+        helper('filesystem');
         $db = \Config\Database::connect();
         $builder = $db->table('property_images');
         $images = $builder->get()->getResult();
@@ -380,20 +382,33 @@ class PropertyController extends BaseController
         $targetWidth = 720;
         $targetHeight = 520;
         $uploadPath = FCPATH . 'public/uploads/property/';
+        $backupPath = FCPATH . 'public/uploads/property_backup/';
+
+        // Create backup folder if it doesn't exist
+        if (!is_dir($backupPath)) {
+            mkdir($backupPath, 0755, true);
+        }
 
         foreach ($images as $img) {
             $imagePath = $uploadPath . $img->image_path;
+            $backupImagePath = $backupPath . $img->image_path;
 
             if (file_exists($imagePath)) {
-                // Resize & crop image to 360x260
+                // Backup original image
+                if (!file_exists($backupImagePath)) {
+                    copy($imagePath, $backupImagePath);
+                }
+
+                // Resize & crop
                 $this->resizeAndCropImage($imagePath, $targetWidth, $targetHeight);
             } else {
                 log_message('error', 'Image not found: ' . $imagePath);
             }
         }
 
-        echo "All property images resized to {$targetWidth}x{$targetHeight} successfully.";
+        echo "All property images resized to {$targetWidth}x{$targetHeight} successfully. Originals backed up.";
     }
+
     private function resizeAndCropImage($imagePath, $targetWidth, $targetHeight)
     {
         $image = \Config\Services::image()
@@ -401,5 +416,39 @@ class PropertyController extends BaseController
             ->resize($targetWidth, $targetHeight, true, 'height')
             ->crop($targetWidth, $targetHeight, 0, 0)
             ->save($imagePath); // overwrite original
+    }
+
+// ************************ change old folder to new folder ***************************
+
+    public function swapPropertyFolders()
+    {
+        $basePath = FCPATH . 'public/uploads/';
+        $propertyPath     = $basePath . 'property/';
+        $backupPath       = $basePath . 'property_backup/';
+
+        // Generate timestamped backup name: property_YYYYMMDD_HHMM_old
+        $timestamp = date('Ymd_Hi'); // e.g., 20240607_1025
+        $propertyOldPath = $basePath . 'property_' . $timestamp . '_old/';
+
+        // Check if original 'property' exists
+        if (!is_dir($propertyPath)) {
+            return $this->response->setBody("❌ Error: 'property' folder does not exist.");
+        }
+
+        // Step 1: Rename 'property' to timestamped backup folder
+        if (!rename($propertyPath, $propertyOldPath)) {
+            return $this->response->setBody("❌ Error renaming 'property' to '$propertyOldPath'.");
+        }
+
+        // Step 2: Rename 'property_backup' to 'property'
+        if (!is_dir($backupPath)) {
+            return $this->response->setBody("❌ Error: 'property_backup' folder does not exist.");
+        }
+
+        if (!rename($backupPath, $propertyPath)) {
+            return $this->response->setBody("❌ Error renaming 'property_backup' to 'property'.");
+        }
+
+        return $this->response->setBody("✅ Success: Folders swapped.<br>'property' → '$propertyOldPath'<br>'property_backup' → 'property'");
     }
 }

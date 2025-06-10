@@ -26,7 +26,9 @@ class LeadsModel extends Model
         'assigned_staff_id',
         'created_at',
         'leadstatus',
-        'agentid'
+        'agentid',
+        'lead_purpose',
+        'referername'
     ];
 
     protected bool $allowEmptyInserts = false;

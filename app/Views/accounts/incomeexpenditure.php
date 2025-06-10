@@ -56,6 +56,18 @@
                     <td><?= number_format($row['total'], 2) ?></td>
                 </tr>
             <?php endforeach; ?>
+             <tr style="font-weight: bold; background-color: #f9f9f9;">
+                <td>Total Income</td>
+                <td><?= number_format($total_income, 2) ?></td>
+            </tr>
+            <tr style="font-weight: bold; background-color: #f9f9f9;">
+                <td>Total Expense</td>
+                <td><?= number_format($total_expense, 2) ?></td>
+            </tr>
+            <tr style="font-weight: bold; background-color: #e0ffe0;">
+                <td>Balance</td>
+                <td><?= number_format($balance, 2) ?></td>
+            </tr>
         </tbody>
     </table>
     <?php else: ?>
@@ -85,36 +97,7 @@
             return char.toUpperCase();
         });
     }
-    // ================== Image Upload Js Start ===========================
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
-                $('#imagePreview').hide();
-                $('#imagePreview').fadeIn(650);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#imageUpload").change(function() {
-        readURL(this);
-    });
-    // ================== Image Upload Js End ===========================
-    // ================== Password Show Hide Js Start ==========
-    function initializePasswordToggle(toggleSelector) {
-        $(toggleSelector).on('click', function() {
-            $(this).toggleClass("ri-eye-off-line");
-            var input = $($(this).attr("data-toggle"));
-            if (input.attr("type") === "password") {
-                input.attr("type", "text");
-            } else {
-                input.attr("type", "password");
-            }
-        });
-    }
-    // Call the function
-    initializePasswordToggle('.toggle-password');
-    // ========================= Password Show Hide Js End ===========================
+   
+    
 </script>
 <?= $this->endSection(); ?>

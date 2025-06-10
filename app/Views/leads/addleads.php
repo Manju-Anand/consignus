@@ -91,6 +91,22 @@
                                         <span class="text-danger"><?= display_errors($validation ?? null, 'agents'); ?></span>
                                     </div>
                                 </div>
+
+                                 <div class="col-sm-12">
+                                    <div class="mb-20">
+                                        <label for="lpurpose" class="form-label fw-semibold text-primary-light text-sm mb-8">
+                                            Lead Purpose <span class="text-danger-600">*</span>
+                                        </label>
+                                        <select class="form-control form-control-sm radius-8 form-select" id="lpurpose" name="lpurpose">
+                                            <option disabled>Select Lead Purpose</option>
+                                            <option value="Rental">Rental</option>
+                                            <option value="Buyer">Buyer</option>
+                                            
+
+                                        </select>
+                                        <span class="text-danger"><?= display_errors($validation ?? null, 'lpurpose'); ?></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -112,9 +128,8 @@
                                             <option value="Flat">Flat</option>
                                             <option value="Villa">Villa</option>
                                             <option value="Land">Land</option>
-                                            <!-- <option value="Rental">Rental</option>
-                                            <option value="Airport Pickup">Airport Pickup</option>
-                                            <option value="Gifting">Gifting</option> -->
+                                            <option value="House">House</option>
+                                           
                                         </select>
                                         <span class="text-danger"><?= display_errors($validation ?? null, 'requirement'); ?></span>
                                     </div>
@@ -151,12 +166,19 @@
                                         <span class="text-danger"><?= display_errors($validation ?? null, 'lead'); ?></span>
                                     </div>
                                 </div>
+                                 <div class="col-sm-12">
+                                    <div class="mb-20">
+                                        <label for="refername" class="form-label fw-semibold text-primary-light text-sm mb-8">Referer Name </label>
+                                        <input type="text" class="form-control form-control-sm radius-8" id="refername" placeholder="Enter Referer Name " name="refername" value="<?= set_value('refername'); ?>" readonly>
+                                    </div>
+                                    <span class="text-danger"><?= display_errors($validation ?? null, 'refername'); ?></span>
+                                </div>
 
                                 <div class="col-sm-12">
                                     <div class="mb-20">
                                         <label for="edate" class="form-label fw-semibold text-primary-light text-sm mb-8">Date of Enquiry <span
                                                 class="text-danger-600">*</span></label>
-                                        <input type="date" class="form-control form-control-sm radius-8" id="edate" oninput="capitalizeFirstLetter(this)" placeholder="Enter Password" name="edate" value="<?= set_value('jdate'); ?>">
+                                        <input type="date" class="form-control form-control-sm radius-8" id="edate" placeholder="Enter Password" name="edate" value="<?= set_value('edate'); ?>">
                                     </div>
                                     <span class="text-danger"><?= display_errors($validation ?? null, 'edate'); ?></span>
                                 </div>
@@ -222,35 +244,25 @@
         });
     }
     // ================== Image Upload Js Start ===========================
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
-                $('#imagePreview').hide();
-                $('#imagePreview').fadeIn(650);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#imageUpload").change(function() {
-        readURL(this);
-    });
-    // ================== Image Upload Js End ===========================
-    // ================== Password Show Hide Js Start ==========
-    function initializePasswordToggle(toggleSelector) {
-        $(toggleSelector).on('click', function() {
-            $(this).toggleClass("ri-eye-off-line");
-            var input = $($(this).attr("data-toggle"));
-            if (input.attr("type") === "password") {
-                input.attr("type", "text");
+   
+
+
+    $(document).ready(function () {
+        $('#lead').on('change', function () {
+            const selected = $(this).val();
+
+            if (selected === 'Referral') {
+                $('#refername').prop('readonly', false);
             } else {
-                input.attr("type", "password");
+                $('#refername').val(''); // clear input
+                $('#refername').prop('readonly', true);
             }
         });
-    }
-    // Call the function
-    initializePasswordToggle('.toggle-password');
-    // ========================= Password Show Hide Js End ===========================
+
+        // Optional: trigger once on load to set correct initial state
+        $('#lead').trigger('change');
+    });
+
+
 </script>
 <?= $this->endSection(); ?>
