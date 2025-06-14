@@ -40,14 +40,15 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table  border-primary-table mb-0" id="dataTable" data-page-length='10'  style="font-size:  0.875rem;">
+                <table class="table  border-primary-table mb-0" id="dataTable" data-page-length='10' style="font-size:  0.875rem;">
                     <thead>
                         <tr>
 
                             <th scope="col">#</th>
-                            <th scope="col">Transaction date</th>
+                            <th scope="col">Date</th>
                             <th scope="col">Accounts Head</th>
                             <th scope="col">Transaction Type</th>
+                            <th scope="col">Description</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Payment Mode</th>
                             <th scope="col">Action</th>
@@ -62,12 +63,13 @@
                                     <td><?= esc($transactions['date']) ?></td>
                                     <td><?= esc($transactions['headname']) ?></td>
                                     <td><?= esc($transactions['transaction_type']) ?></td>
+                                    <td><?= esc($transactions['description']) ?></td>
                                     <td><?= esc($transactions['amount']) ?></td>
                                     <td><?= esc($transactions['modename']) ?></td>
-                                
+
                                     <td>
 
-                                      
+
 
                                         <a href="javascript:void(0)" data-id="<?= $transactions['id']; ?>" title="View transactions"
                                             class="view-staff-btn w-32-px h-32-px bg-primary-light text-primary-800 rounded-circle d-inline-flex align-items-center justify-content-center">

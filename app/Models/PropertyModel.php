@@ -113,6 +113,16 @@ class PropertyModel extends Model
             ->get()
             ->getRow(); // Use getRow() for single result
     }
+    public function getPropertyWithDetails()
+    {
+        $db = \Config\Database::connect();
+
+        return $db->table('properties p')
+            ->select('p.*, py.*,p.category as orgcategory, py.description as pydesp, p.description as prodesp')
+            ->join('property_types py', 'py.id = p.propertytype_id', 'left')
+            ->get()
+            ->getResult(); // Use getResult() for multiple records
+    }
 
 
 

@@ -203,4 +203,22 @@ class LeadController extends BaseController
             return redirect()->to('/leads');
         }
     }
+
+
+     public function leadexport()
+    {
+        if (!$this->session->has('logged_user')) {
+
+            return view('loginview');
+        }
+        $leads = $this->leadmodel->getleads();
+
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "leads" => $leads,
+        ];
+
+        return $this->renderView('leads/leadexport', $data);
+    }
 }

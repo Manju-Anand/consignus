@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\TeamassignmentModel;
 use App\Models\TeamworkModel;
 use App\Models\SitevisitexpenseModel;
+use App\Models\TransactionsModel;
 
 
 class TeamworkController extends BaseController
@@ -14,11 +15,13 @@ class TeamworkController extends BaseController
     public $teamssignmodel;
     public $teamupdatemodel;
     public $sitevisitexpensemodel;
+    public $transmodel;
     public function __construct()
     {
         $this->teamssignmodel = new TeamassignmentModel();
         $this->teamupdatemodel = new TeamworkModel();
         $this->sitevisitexpensemodel = new SitevisitexpenseModel();
+        $this->transmodel =  new TransactionsModel();
     }
     public function index()
     {
@@ -157,6 +160,21 @@ class TeamworkController extends BaseController
                 'work_status' => $row['work_status'] ?? '',
             ]);
         }
+
+// ************************ transaction table saving *****************
+           $headdata = [
+            'date'   => $data['date'],
+            'account_head_id'   => $data['account_head_id'],
+            'description'   => $data['description'],
+            'transaction_type'   => $data['transaction_type'],
+            'amount'   => $data['amount'],
+            'mode_id'   => $data['mode_id'],
+            'reference_no'   => $data['reference_no'],
+            'created_by'   => $data['payer_payee'],
+            'created_at'   => date('Y-m-d H:i:s'),
+        ];
+
+        $this->transmodel->insert($headdata);
 
         return $this->response->setJSON(['success' => true]);
     }

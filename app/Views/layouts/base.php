@@ -17,6 +17,11 @@
   <link rel="stylesheet" href="<?= base_url(); ?>public/assets/css/lib/apexcharts.css">
   <!-- Data Table css -->
   <link rel="stylesheet" href="<?= base_url(); ?>public/assets/css/lib/dataTables.min.css">
+  <!-- DataTables core CSS -->
+ <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+
+
   <!-- Text Editor css -->
   <link rel="stylesheet" href="<?= base_url(); ?>public/assets/css/lib/editor-katex.min.css">
   <link rel="stylesheet" href="<?= base_url(); ?>public/assets/css/lib/editor.atom-one-dark.min.css">
@@ -44,6 +49,15 @@
 
   <!-- Include in your <head> or just before </body> -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>.dt-buttons .dt-button {
+    background-color: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+</style>
 
   <?= $this->renderSection('styles') ?>
 </head>
@@ -166,11 +180,11 @@
           <ul class="sidebar-submenu">
             <li> <a href="<?= base_url(); ?>transactions-list"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Transactions</a>
             </li>
-              <li> <a href="<?= base_url(); ?>liability-convertion"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Liability Convertion</a>
+            <li> <a href="<?= base_url(); ?>liability-convertion"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Liability Convertion</a>
             </li>
             <li>
               <a href="<?= base_url(); ?>income-and-expenditure"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-              Income & Expenditure</a>
+                Income & Expenditure</a>
             </li>
 
           </ul>
@@ -192,14 +206,29 @@
             <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
             <span>LBM Contribution</span>
           </a>
-          
+
         </li>
-         <li>
+        <li>
           <a href="<?= base_url(); ?>company-liability-list">
             <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
             <span>Company Liability List</span>
           </a>
-          
+
+        </li>
+         <li class="sidebar-menu-group-title">Export To Excel</li>
+        <li>
+          <a href="<?= base_url(); ?>lead-export">
+            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
+            <span>Leads List Export</span>
+          </a>
+
+        </li>
+        <li>
+          <a href="<?= base_url(); ?>property-export">
+            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
+            <span>Property List Export</span>
+          </a>
+
         </li>
 
 
@@ -359,6 +388,9 @@
 
   <?= $this->renderSection("scripts"); ?>
 
+
+
+
   <!-- jQuery library js -->
   <script src="<?= base_url(); ?>public/assets/js/lib/jquery-3.7.1.min.js"></script>
   <!-- Bootstrap js -->
@@ -375,7 +407,7 @@
   <script src="<?= base_url(); ?>public/assets/js/lib/jquery-jvectormap-world-mill-en.js"></script>
   <!-- Popup js -->
   <script src="<?= base_url(); ?>public/assets/js/lib/magnifc-popup.min.js"></script>
-   <!-- Popup js -->
+  <!-- Popup js -->
 
   <!-- Slick Slider js -->
   <script src="<?= base_url(); ?>public/assets/js/lib/slick.min.js"></script>
@@ -388,17 +420,17 @@
 
   <!-- main js -->
   <script src="<?= base_url(); ?>public/assets/js/app.js"></script>
-  
-
-
-
-
 
   <script>
     let table = new DataTable('#dataTable');
   </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
+
+  
 </body>
 
 </html>

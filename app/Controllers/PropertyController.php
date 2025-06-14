@@ -57,6 +57,23 @@ class PropertyController extends BaseController
         return $this->renderView('property/propertyview', $data);
     }
 
+    public function propertylistview()
+    {
+
+        // if (!$this->session->has('logged_user')) {
+
+        //     return view('loginview');
+        // }
+        $ptypes = $this->propertymodel->getPropertyWithDetails();
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "ptype" => $ptypes,
+        ];
+$this->logData('info', 'property idaa array', $data);
+        return $this->renderView('property/propertyexport', $data);
+    }
+
 
     public function addproperty()
     {

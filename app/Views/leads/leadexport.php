@@ -10,19 +10,7 @@
 
 <?= $this->section("content"); ?>
 <div class="dashboard-main-body">
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
-        <h6 class="fw-semibold mb-0">Leads List</h6>
-        <ul class="d-flex align-items-center gap-2">
-            <li class="fw-medium">
-                <a href="<?= base_url(); ?>" class="d-flex align-items-center gap-1 hover-text-primary">
-                    <iconify-icon icon="solar:home-smile-angle-outline" class="icon text-lg"></iconify-icon>
-                    Masters
-                </a>
-            </li>
-            <li>-</li>
-            <li class="fw-medium">Leads</li>
-        </ul>
-    </div>
+    
     <div class="card basic-data-table">
         <div class="card-header">
             <div class="row">
@@ -31,8 +19,7 @@
 
                 </div>
                 <div class="col-md-6 d-flex justify-content-end">
-
-                    <a href="<?= base_url(); ?>add-leads"> <button type="button" class="btn btn-success-600 radius-8 px-14 py-6 text-sm right">Add New Lead</button></a>
+                    <button id="excelExport" class="btn btn-success mb-3">Export to Excel</button>
                 </div>
             </div>
 
@@ -40,7 +27,7 @@
 
         </div>
         <div class="card-body">
-     
+
 
             <div class="table-responsive">
                 <table class="table  border-primary-table mb-0" id="dataTable" data-page-length='10' style="font-size:  0.875rem;">
@@ -57,7 +44,7 @@
                             <th scope="col">Agent</th>
                             <th scope="col">Assigned Staff</th>
                             <th scope="col">Lead Status</th>
-                            <th scope="col">Action</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -74,28 +61,7 @@
                                     <td><?= esc($customer['agentname']) ?></td>
                                     <td><?= esc($customer['sname']) ?></td>
                                     <td><?= esc($customer['leadstatus']) ?></td>
-                                    <td>
-                                        <?php if (isset($customer['leadstatus']) && $customer['leadstatus'] !== 'Converted') { ?>
-                                            <a href="<?= base_url('followup-leads/' . $customer['id']) ?>" data-id="<?= $customer['id']; ?>" title="Follow-Up"
-                                                class="w-32-px h-32-px bg-warning-light text-warning-800 rounded-circle d-inline-flex align-items-center justify-content-center">
-                                                <iconify-icon icon="mdi:message-reply-text-outline"></iconify-icon>
-                                            </a>
-                                        <?php } ?>
-                                        <a href="javascript:void(0)" data-id="<?= $customer['id']; ?>" title="View Customer"
-                                            class="view-staff-btn w-32-px h-32-px bg-primary-light text-primary-800 rounded-circle d-inline-flex align-items-center justify-content-center">
-                                            <iconify-icon icon="iconamoon:eye-light"></iconify-icon>
-                                        </a>
-                                        <a href="<?= base_url('edit-leads/' . $customer['id']) ?>" title="Edit Customer Details"
-                                            class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
-                                            <iconify-icon icon="lucide:edit"></iconify-icon>
-                                        </a>
-                                        <?php if (isset($customer['leadstatus']) && $customer['leadstatus'] !== 'Converted') { ?>
-                                            <a href="javascript:void(0);" onclick="confirmDelete(<?= $customer['id']; ?>)" title="Delete Customer"
-                                                class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
-                                                <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
-                                            </a>
-                                        <?php } ?>
-                                    </td>
+
                                 </tr>
                             <?php endforeach; ?>
 
@@ -105,7 +71,7 @@
                     </tbody>
                 </table>
 
-                
+
             </div>
         </div>
     </div>
@@ -174,7 +140,35 @@
         });
     });
 </script>
+<!-- Excel Export Dependencies -->
 
+<script>
+    $(document).ready(function() {
+        // Get the existing table instance
+        let table = $('#dataTable').DataTable();
+
+        // Add the export button manually
+        new $.fn.dataTable.Buttons(table, {
+            buttons: [{
+                extend: 'excelHtml5',
+                title: 'Leads Data',
+                text: 'Download Excel',
+                className: 'btn btn-sm btn-primary'
+            }]
+        });
+
+        // Attach export to your custom button
+        $('#excelExport').on('click', function() {
+            table.button('.buttons-excel').trigger();
+        });
+    });
+</script>
+
+
+
+
+
+<!-- -->
 
 
 

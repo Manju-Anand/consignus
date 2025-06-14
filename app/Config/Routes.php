@@ -55,6 +55,7 @@ $routes->post('leads/viewDetails', 'LeadController::viewDetails');
 $routes->get('/edit-leads/(:num)', 'LeadController::editleads/$1');
 $routes->get('/delete-leads/(:num)', 'LeadController::deleteleads/$1');
 $routes->post('leadsedit-form', 'LeadController::updateleads'); 
+$routes->get('/lead-export', 'LeadController::leadexport');
 
 $routes->get('/followup-leads/(:num)', 'FollowupController::viewfollowup/$1');
 $routes->post('save-followup', 'FollowupController::savefollowup'); 
@@ -81,7 +82,7 @@ $routes->get('/delete-property/(:num)', 'PropertyController::deleteproperty/$1')
 $routes->post('get-property-details', 'PropertyController::getPropertyDetails');
 $routes->get('/view-property/(:num)', 'PropertyController::viewproperty/$1');
 $routes->get('ajax-search-property', 'PropertyController::ajaxSearchProperty');
-
+$routes->get('/property-export', 'PropertyController::propertylistview');
 
 $routes->get('/services', 'ServiceController::index');
 $routes->get('/add-service', 'ServiceController::addservice');
