@@ -55,6 +55,7 @@
                             <th scope="col">Location</th>
                             <th scope="col">Budget</th>
                             <th scope="col">Agent</th>
+                             <th scope="col">Referer Name</th>
                             <th scope="col">Assigned Staff</th>
                             <th scope="col">Lead Status</th>
                             <th scope="col">Action</th>
@@ -72,6 +73,7 @@
                                     <td><?= esc($customer['preferred_location']) ?></td>
                                     <td><?= esc($customer['budget_range']) ?></td>
                                     <td><?= esc($customer['agentname']) ?></td>
+                                    <td><?= esc($customer['referername']) ?></td>
                                     <td><?= esc($customer['sname']) ?></td>
                                     <td><?= esc($customer['leadstatus']) ?></td>
                                     <td>

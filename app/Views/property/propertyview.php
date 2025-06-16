@@ -103,9 +103,10 @@
                                 <div class="hover-scale-img border radius-16 overflow-hidden">
                                     <!-- <div class="max-h-266-px overflow-hidden"> -->
                                     <div class="image-wrapper">
+                                        <a href="<?= base_url('view-property/' . $property['id']) ?>" title="View Property Details"> 
                                         <img src="<?= base_url(); ?>public/uploads/property/<?= $property['image_path']; ?>" alt=""
                                             class="hover-scale-img__img w-100 h-100 object-fit-cover">
-
+                                        </a>
                                     </div>
                                     <div class="py-16 px-24">
                                         <h6 class="mb-4" style="font-size:18px !important;"><?= $property['title']; ?></h6>

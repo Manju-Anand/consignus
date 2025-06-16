@@ -20,6 +20,12 @@ $routes->post('signin-form', 'LoginController::processForm');
 $routes->get('/registration', 'LoginController::registration');
 $routes->post('registration-form', 'LoginController::registrationProcess'); 
 
+
+$routes->get('/lbmpanel', 'LbmController::lbmpanel');
+$routes->post('lbmlogin-form', 'LbmController::processForm'); 
+$routes->get('/customer/home', 'LbmController::index');
+$routes->get('/customer/quotation/(:num)', 'LbmController::previewQuotation/$1');
+
 $routes->get('/staff', 'StaffController::index');
 $routes->get('/add-staff', 'StaffController::addstaff');
 $routes->post('staffadd-form', 'StaffController::savestaff'); 
@@ -107,6 +113,7 @@ $routes->get('/edit-lbm/(:num)', 'LbmController::editlbm/$1');
 $routes->post('editlbm-form', 'LbmController::updatelbm'); 
 $routes->get('/delete-lbm/(:num)', 'LbmController::deleteslbm/$1');
 $routes->get('/team-assignment', 'LbmController::teamassign');
+$routes->get('/lbmuser', 'LbmController::lbmuserview');
 
 $routes->post('get-customer-details', 'LbmController::getcustomerDetails');
 $routes->post('get-property-full-details', 'LbmController::getPropertyDetails');

@@ -41,6 +41,23 @@ class LbmController extends BaseController
         return $this->renderView('lbm/lbmview', $data);
     }
 
+    public function lbmuserview()
+    {
+        if (!$this->session->has('logged_user')) {
+
+            return view('loginview');
+        }
+        $lbmsusers = $this->loginmodel->where('designation', 'Lbm')->findAll();
+
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "lbmsusers" => $lbmsusers,
+        ];
+
+        return $this->renderView('lbm/lbmuserview', $data);
+    }
+
     public function addlbm()
     {
 
@@ -329,22 +346,22 @@ class LbmController extends BaseController
 
 
 
-            $cdata = [
-                'member_id' => $this->request->getVar('lbm'),
-                'customer_id' =>  $this->request->getVar('customers'),
-                'property_id' => $this->request->getVar('property'),
-                'role' => $this->request->getVar('role'),
-                'status' => "pending",
-                'assigned_at' => date('Y-m-d h:i:s'),
+        $cdata = [
+            'member_id' => $this->request->getVar('lbm'),
+            'customer_id' =>  $this->request->getVar('customers'),
+            'property_id' => $this->request->getVar('property'),
+            'role' => $this->request->getVar('role'),
+            'status' => "pending",
+            'assigned_at' => date('Y-m-d h:i:s'),
 
-            ];
-
-
+        ];
 
 
-            $lbm_id = $this->teammodel->insert($cdata);
 
-            return redirect()->to('/team-assignment');
+
+        $lbm_id = $this->teammodel->insert($cdata);
+
+        return redirect()->to('/team-assignment');
         // }
     }
 
@@ -357,5 +374,91 @@ class LbmController extends BaseController
     }
 
 
-    
+    public function lbmpanel()
+    {
+        if (!$this->session->has('logged_user')) {
+
+            return view('loginview');
+        }
+        $lbms = $this->lbmmodel->getLbm();
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "lbms" => $lbms,
+        ];
+
+        return $this->renderView('lbmpanel/loginview', $data);
+    }
+
+    public function processForm()
+    {
+        $validation = \Config\Services::validation();
+
+        // Set validation rules
+        $validation->setRules([
+            "email"     => "required|valid_email",
+            "password"  => "required|min_length[4]|max_length[10]",
+
+        ]);
+
+        // Initialize data with page details
+        $data = [
+            "validation" => null, // Default null, will be set if validation fails
+        ];
+
+        if (!$this->validate($validation->getRules())) {
+            // Add validation errors to $data array
+            $data['validation'] = $this->validator;
+            return view('customer/loginview', $data);
+        } else {
+
+            $email = $this->request->getVar('email');
+            $password = $this->request->getVar('password');
+            $result = $this->clientUserModel->verifyemail($email);
+            if ($result) {
+                // print_r($result);
+                // return "correct email";
+
+                if (password_verify($password, $result->password)) {
+
+                    $logininfo = [
+                        "userid" => $result->id,
+                        "agent" => $this->getUserAgentInfo(),
+                        "ip" => $this->request->getIPAddress(),
+                        "login_time" => date('Y-m-d h:i:s'),
+
+                    ];
+                    $la_id = $this->clientUserModel->saveLoginInfo($logininfo);
+                    if ($la_id) {
+                        $this->session->set('logged_info', $la_id);
+                    }
+                    $this->session->set('logged_user', $result->id);
+                    $this->session->set('logged_customerid', $result->customerid);
+                    return redirect()->to('/customer/home');
+                } else {
+                    $this->session->setTempdata('failure', 'Sorry, wrong password', 3);
+                    return redirect()->to('/customer');
+                }
+            } else {
+                $this->session->setTempdata('failure', 'Sorry, eMAIL nOT FOUND', 3);
+                return redirect()->to('/customer');
+            }
+        }
+        // return "Form processed successfully!";
+    }
+
+    public function getUserAgentInfo()
+    {
+        $agent = $this->request->getUserAgent();
+        if ($agent->isBrowser()) {
+            $currentAgent = $agent->getBrowser();
+        } elseif ($agent->isMobile()) {
+            $currentAgent = $agent->getMobile();
+        } elseif ($agent->isRobot()) {
+            $currentAgent = $agent->getRobot();
+        } else {
+            $currentAgent = "Unidentified User Agent";
+        }
+        return $currentAgent;
+    }
 }

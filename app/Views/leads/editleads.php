@@ -276,19 +276,21 @@
     }
 
     // ================== Password Show Hide Js Start ==========
-    function initializePasswordToggle(toggleSelector) {
-        $(toggleSelector).on('click', function() {
-            $(this).toggleClass("ri-eye-off-line");
-            var input = $($(this).attr("data-toggle"));
-            if (input.attr("type") === "password") {
-                input.attr("type", "text");
+    $(document).ready(function () {
+        $('#lead').on('change', function () {
+            const selected = $(this).val();
+
+            if (selected === 'Referral') {
+                $('#refername').prop('readonly', false);
             } else {
-                input.attr("type", "password");
+                $('#refername').val(''); // clear input
+                $('#refername').prop('readonly', true);
             }
         });
-    }
-    // Call the function
-    initializePasswordToggle('.toggle-password');
+
+        // Optional: trigger once on load to set correct initial state
+        $('#lead').trigger('change');
+    });
     // ========================= Password Show Hide Js End ===========================
 </script>
 <?= $this->endSection(); ?>

@@ -6,7 +6,18 @@
 
 <?= $this->endSection(); ?>
 
-
+<?= $this->section("styles"); ?>
+  <style>
+    .dt-buttons .dt-button {
+      background-color: #0d6efd;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin-right: 5px;
+    }
+  </style>
+<?= $this->endSection(); ?>
 
 <?= $this->section("content"); ?>
 <div class="dashboard-main-body">
@@ -108,7 +119,9 @@
 <?= $this->section("scripts"); ?>
 
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
 <!-- Excel Export Dependencies -->
 
