@@ -58,7 +58,7 @@ class LoginModel extends Model
     {
 
         $bulider = $this->db->table("users");
-        $bulider->select('email,password,id');
+        $bulider->select('email,password,id,lbmid');
         $bulider->where("email", $email);
         $result = $bulider->get();
         if ($bulider->countAll()) {

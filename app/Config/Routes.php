@@ -22,9 +22,11 @@ $routes->post('registration-form', 'LoginController::registrationProcess');
 
 
 $routes->get('/lbmpanel', 'LbmController::lbmpanel');
-$routes->post('lbmlogin-form', 'LbmController::processForm'); 
-$routes->get('/customer/home', 'LbmController::index');
-$routes->get('/customer/quotation/(:num)', 'LbmController::previewQuotation/$1');
+$routes->post('lbmlogin-form', 'LbmController::processForm');
+$routes->get('/lbmpanel/home', 'LbmController::homeview');
+$routes->get('/lbmpanel/property', 'LbmController::propertylist');
+$routes->get('/lbmpanel/view-property/(:num)', 'LbmController::viewproperty/$1');
+// $routes->get('ajax-search-property', 'LbmController::ajaxSearchProperty');
 
 $routes->get('/staff', 'StaffController::index');
 $routes->get('/add-staff', 'StaffController::addstaff');

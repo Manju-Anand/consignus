@@ -9,6 +9,10 @@ use App\Models\LoginModel;
 use App\Models\CustomersModel;
 use App\Models\PropertyModel;
 use App\Models\TeamassignmentModel;
+use App\Models\HomeModel;
+use App\Models\PropertimagesModel;
+use App\Models\PropertytypeModel;
+
 
 class LbmController extends BaseController
 {
@@ -17,6 +21,9 @@ class LbmController extends BaseController
     public $cmodel;
     public $pmodel;
     public $teammodel;
+    public $hmodel;
+    public $pimagesmodel;
+    public $ptypemodel;
     public function __construct()
     {
         $this->lbmmodel = new LbmModel();
@@ -24,6 +31,9 @@ class LbmController extends BaseController
         $this->cmodel = new CustomersModel();
         $this->pmodel = new PropertyModel();
         $this->teammodel = new TeamassignmentModel();
+        $this->hmodel = new HomeModel();
+        $this->pimagesmodel = new PropertimagesModel();
+        $this->ptypemodel = new PropertytypeModel();
     }
     public function index()
     {
@@ -373,7 +383,7 @@ class LbmController extends BaseController
         }
     }
 
-
+    // ====================================lbm panel ========================
     public function lbmpanel()
     {
         if (!$this->session->has('logged_user')) {
@@ -409,12 +419,12 @@ class LbmController extends BaseController
         if (!$this->validate($validation->getRules())) {
             // Add validation errors to $data array
             $data['validation'] = $this->validator;
-            return view('customer/loginview', $data);
+            return view('lbmpanel/loginview', $data);
         } else {
 
             $email = $this->request->getVar('email');
             $password = $this->request->getVar('password');
-            $result = $this->clientUserModel->verifyemail($email);
+            $result = $this->loginmodel->verifyemail($email);
             if ($result) {
                 // print_r($result);
                 // return "correct email";
@@ -428,20 +438,20 @@ class LbmController extends BaseController
                         "login_time" => date('Y-m-d h:i:s'),
 
                     ];
-                    $la_id = $this->clientUserModel->saveLoginInfo($logininfo);
+                    $la_id = $this->loginmodel->saveLoginInfo($logininfo);
                     if ($la_id) {
                         $this->session->set('logged_info', $la_id);
                     }
                     $this->session->set('logged_user', $result->id);
-                    $this->session->set('logged_customerid', $result->customerid);
-                    return redirect()->to('/customer/home');
+                    $this->session->set('logged_lbmid', $result->lbmid);
+                    return redirect()->to('lbmpanel/home');
                 } else {
                     $this->session->setTempdata('failure', 'Sorry, wrong password', 3);
-                    return redirect()->to('/customer');
+                    return redirect()->to('/lbmpanel');
                 }
             } else {
                 $this->session->setTempdata('failure', 'Sorry, eMAIL nOT FOUND', 3);
-                return redirect()->to('/customer');
+                return redirect()->to('/lbmpanel');
             }
         }
         // return "Form processed successfully!";
@@ -460,5 +470,121 @@ class LbmController extends BaseController
             $currentAgent = "Unidentified User Agent";
         }
         return $currentAgent;
+    }
+
+    public function homeview()
+    {
+
+        if (!$this->session->has('logged_user')) {
+            log_message('debug', 'Redirecting to login from Home');
+            return redirect()->to('/lbmpanel');
+        }
+        $id = $this->session->get('logged_user');
+        $userdata = $this->hmodel->getLoggedInUserData($id);
+        $properties = $this->pmodel->getPropertiesWithOneImage();
+        $propertyCount = count($properties);
+        $typeDistribution = $this->pmodel->getPropertyTypeDistribution();
+
+        // print_r($userdata);
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "userdata" => $userdata,
+            "propertyCount" => $propertyCount,
+            "typeDistribution" => $typeDistribution,
+        ];
+        return view('lbmpanel/homeview', $data);
+    }
+
+    public function logout()
+    {
+        if (session()->has('logged_info')) {
+            $la_id = session()->get('logged_info');
+            $this->hmodel->updateLogoutTime($la_id);
+        }
+        session()->remove('logged_user');
+        session()->destroy();
+        return redirect()->to('/lbmpanel');
+    }
+
+    public function propertylist()
+    {
+        if (!$this->session->has('logged_user')) {
+
+            return view('loginview');
+        }
+        $properties = $this->pmodel->getPropertiesWithOneImage();
+        // Get search keyword
+        $search = $this->request->getGet('search');
+        // Filter properties based on search term
+        $searchResults = [];
+        if (!empty($search)) {
+            foreach ($properties as $prop) {
+                // Match against title, category, or any other fields
+                if (
+                    stripos($prop['title'], $search) !== false ||
+                    stripos($prop['category'], $search) !== false
+                ) {
+                    $searchResults[] = $prop;
+                }
+            }
+        }
+
+
+
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "properties" => $properties,
+            "search" => $search,
+            "searchResults" => $searchResults
+        ];
+
+        // $this->logData('info', 'property idaa array', $data);
+        return $this->renderView('lbmpanel/propertyview', $data);
+    }
+    public function viewproperty($pid)
+    {
+        $property = $this->pmodel->getproperty($pid);
+        $propertyimages = $this->pimagesmodel->getpropertyimages($pid);
+        $ptypes = $this->ptypemodel->getpropertytype();
+
+        $data = [
+            "meta_title" => "Consignus",
+            "meta_description" => "Consignus",
+            "property" => $property,
+            "propertyimages" => $propertyimages,
+            "ptype" => $ptypes,
+        ];
+        $this->logData('info', 'property data array', $data);
+        return $this->renderView('lbmpanel/viewproperty', $data);
+    }
+
+    public function ajaxSearchProperty()
+    {
+        $search = $this->request->getGet('search');
+        $db = \Config\Database::connect();
+
+        // Base SQL builder
+        $builder = $db->table('properties p')
+            ->select(
+                'p.*, 
+            (SELECT image_path FROM property_images i 
+             WHERE i.property_id = p.id 
+             ORDER BY i.id ASC LIMIT 1) as image_path'
+            );
+
+        // Apply search filter if provided
+        if (!empty($search)) {
+            $builder->groupStart()
+                ->like('p.title', $search)
+                ->orLike('p.category', $search)
+                ->groupEnd();
+        }
+
+        $properties = $builder->get()->getResultArray();
+
+        $this->logData('info', 'property data array', $properties);
+        return view('property/property_cards', ['properties' => $properties]);
     }
 }

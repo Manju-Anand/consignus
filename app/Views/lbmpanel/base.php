@@ -101,233 +101,23 @@
     <div class="sidebar-menu-area">
       <ul class="sidebar-menu" id="sidebar-menu">
         <li>
-          <a href="<?= base_url(); ?>home">
+          <a href="<?= base_url(); ?>lbmpanel/home">
             <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
             <span>Dashboard</span>
           </a>
 
         </li>
         <li class="sidebar-menu-group-title">Application</li>
+       
         <li>
-          <a href="<?= base_url(); ?>leads">
-            <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
-            <span>Leads</span>
-          </a>
-        </li>
-        <li>
-          <a href="<?= base_url(); ?>customers">
-            <i class="ri-user-settings-line text-xl me-6 d-flex w-auto"></i>
-            <span>Customers</span>
-          </a>
-        </li>
-        <li class="dropdown">
-          <a href="javascript:void(0)">
+          <a href="<?= base_url(); ?>lbmpanel/property">
             <iconify-icon icon="hugeicons:invoice-03" class="menu-icon"></iconify-icon>
             <span>Properties</span>
           </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="<?= base_url(); ?>add-property"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Add Property</a>
-            </li>
-            <li>
-              <a href="<?= base_url(); ?>property"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Property View</a>
-            </li>
-
-
-          </ul>
+          
         </li>
 
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="material-symbols:map-outline" class="menu-icon"></iconify-icon>
-            <span>Services</span>
-          </a>
-          <ul class="sidebar-submenu">
-
-            <li>
-              <a href="<?= base_url(); ?>add-service">
-                <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
-                <span>Add Service</span>
-              </a>
-            </li>
-            <li>
-              <a href="<?= base_url(); ?>services">
-                <iconify-icon icon="material-symbols:map-outline" class="menu-icon"></iconify-icon>
-                <span>Service List</span>
-              </a>
-            </li>
-
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-            <span>Leadership Team Tasks</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="<?= base_url(); ?>team-assignment"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Assign Task</a>
-            </li>
-            <li>
-              <a href="<?= base_url(); ?>team-work-update"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Work Updates</a>
-            </li>
-            <!-- <li>
-              <a href="invoice-add.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>Task Overview</a>
-            </li> -->
-
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
-            <span>Shares Transactions</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li> <a href="<?= base_url(); ?>share-purchase-list"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Share Purchase</a>
-            </li>
-            <li>
-              <a href="<?= base_url(); ?>share-sale-list"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Share Sale</a>
-            </li>
-
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="hugeicons:money-send-square" class="menu-icon"></iconify-icon>
-            <span>Account Transactions</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li> <a href="<?= base_url(); ?>transactions-list"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Transactions</a>
-            </li>
-            <li> <a href="<?= base_url(); ?>liability-convertion"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Liability Convertion</a>
-            </li>
-            <li>
-              <a href="<?= base_url(); ?>income-and-expenditure"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Income & Expenditure</a>
-            </li>
-
-          </ul>
-        </li>
-        <!-- 
-        
-
-        <li>
-          <a href="<?= base_url(); ?>quotations">
-            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
-            <span>Quotation</span>
-          </a>
-        </li> -->
-
-        <!-- -->
-        <li class="sidebar-menu-group-title">Analysis</li>
-        <li>
-          <a href="<?= base_url(); ?>lbm-contribution">
-            <iconify-icon icon="solar:document-text-outline" class="menu-icon"></iconify-icon>
-            <span>LBM Contribution</span>
-          </a>
-
-        </li>
-        <li>
-          <a href="<?= base_url(); ?>company-liability-list">
-            <iconify-icon icon="mingcute:storage-line" class="menu-icon"></iconify-icon>
-            <span>Company Liability List</span>
-          </a>
-
-        </li>
-        <li class="sidebar-menu-group-title">Export To Excel</li>
-        <li>
-          <a href="<?= base_url(); ?>lead-export">
-            <i class="ri-news-line text-xl me-6 d-flex w-auto"></i>
-            <span>Leads List Export</span>
-          </a>
-
-        </li>
-        <li>
-          <a href="<?= base_url(); ?>property-export">
-            <iconify-icon icon="solar:gallery-wide-linear" class="menu-icon"></iconify-icon>
-            <span>Property List Export</span>
-          </a>
-
-        </li>
-
-
-        <li class="sidebar-menu-group-title">Masters</li>
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
-            <span>Accounts</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="<?= base_url(); ?>account-heads"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Account Head</a>
-            </li>
-            <li>
-              <a href="<?= base_url(); ?>payment-modes"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Payment Modes</a>
-            </li>
-
-          </ul>
-        </li>
-
-
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
-            <span>Shares Masters</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="<?= base_url(); ?>company-valuation"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Company Valuation</a>
-            </li>
-            <li>
-              <a href="<?= base_url(); ?>shareholder-master"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Shareholder Master</a>
-            </li>
-
-
-          </ul>
-        </li>
-
-        <li>
-          <a href="<?= base_url(); ?>staff">
-            <iconify-icon icon="solar:document-text-outline" class="menu-icon"></iconify-icon>
-            <span>Staff</span>
-          </a>
-
-        </li>
-        <li>
-          <a href="<?= base_url(); ?>property-type">
-            <iconify-icon icon="heroicons:document" class="menu-icon"></iconify-icon>
-            <span>Property Type</span>
-          </a>
-
-        </li>
-        <li>
-          <a href="<?= base_url(); ?>agents">
-            <iconify-icon icon="streamline:straight-face" class="menu-icon"></iconify-icon>
-            <span>Agents</span>
-          </a>
-
-        </li>
-        <li>
-          <a href="<?= base_url(); ?>lbm">
-            <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
-            <span>Leadership Board Members</span>
-          </a>
-
-        </li>
-
-        <li>
-          <a href="<?= base_url(); ?>lbmuser">
-            <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-            <span>Lbm Users</span>
-          </a>
-
-        </li>
+      
 
 
 
