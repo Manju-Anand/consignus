@@ -42,6 +42,7 @@
                             <th scope="col">Location</th>
                             <th scope="col">Budget</th>
                             <th scope="col">Agent</th>
+                            <th scope="col">Referer Name</th>
                             <th scope="col">Assigned Staff</th>
                             <th scope="col">Lead Status</th>
 
@@ -59,6 +60,7 @@
                                     <td><?= esc($customer['preferred_location']) ?></td>
                                     <td><?= esc($customer['budget_range']) ?></td>
                                     <td><?= esc($customer['agentname']) ?></td>
+                                    <td><?= esc($customer['referername']) ?></td>
                                     <td><?= esc($customer['sname']) ?></td>
                                     <td><?= esc($customer['leadstatus']) ?></td>
 
@@ -78,26 +80,7 @@
 </div>
 
 
-<!-- Add Task Modal -->
-<div class="modal fade" id="viewstaffModal" tabindex="-1" aria-labelledby="viewstaffModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title text-xl mb-0" id="viewstaffModalLabel">Leads View</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="staffDetailsContent">
 
-            </div>
-            <div class="modal-footer justify-content-center gap-3">
-                <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-50 py-11 radius-8" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -108,38 +91,7 @@
 
 
 
-<script>
-    function confirmDelete(id) {
-        if (confirm("Are you sure you want to delete this Leads Details?")) {
-            window.location.href = "<?= base_url('delete-leads/') ?>" + id;
-        }
-    }
 
-
-
-    $(document).on('click', '.view-staff-btn', function() {
-        var staffId = $(this).data('id');
-
-        $('#staffDetailsContent').html('<p>Loading...</p>');
-        $('#viewstaffModal').modal('show');
-
-        $.ajax({
-            url: "<?= base_url('leads/viewDetails') ?>",
-            method: "POST",
-            data: {
-                id: staffId
-            },
-            success: function(viewHtml) {
-                $('#staffDetailsContent').html(viewHtml);
-                // var viewstaffModal = new bootstrap.Modal(document.getElementById('viewstaffModal'));
-                // viewstaffModal.show();
-            },
-            error: function() {
-                $('#staffDetailsContent').html('<p>Unable to load Customer details.</p>');
-            }
-        });
-    });
-</script>
 <!-- Excel Export Dependencies -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>

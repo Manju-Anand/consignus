@@ -80,10 +80,10 @@ class Home extends BaseController
             "customerRegistrations" => $customerRegistrations,
             "monthlyShareSales" => $monthlyShareSales,
             "monthlySharetransactions" => $monthlySharetransactions,
-             "coreTeamStats" => $coreTeamStats,
+            "coreTeamStats" => $coreTeamStats,
         ];
 
-        // $this->logData('info', 'customers Data array', $data);
+        $this->logData('info', 'customers Data array', $coreTeamStats);
         return view('homeview', $data);
     }
 

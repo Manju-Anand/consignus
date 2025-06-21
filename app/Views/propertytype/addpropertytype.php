@@ -52,6 +52,8 @@
                                     <option value="Villa">Villa</option>
                                     <option value="Land">Land</option>
                                     <option value="Rental">Rental</option>
+                                    <option value="House">House</option>
+                                    <option value="Home-Stay">Home-Stay</option>
                                 </select>
                                 <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
                             </div>
@@ -174,8 +176,8 @@
 
 
                         <div class="row">
-                            <div class="col-md-6  text-end">
-                            <button type="submit" name="submit" class="btn btn-primary-600 radius-8 px-60 py-8 w-100">Submit</button>
+                            <div class="col-md-6 text-end">
+                                <button type="submit" name="submit" class="btn btn-primary-600 radius-8 px-60 py-8 w-100">Submit</button>
 
                             </div>
                             <div class="col-md-6">
@@ -230,7 +232,6 @@
             return false;
         });
     });
-  
 </script>
 
 <?= $this->endSection(); ?>

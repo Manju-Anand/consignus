@@ -92,7 +92,7 @@
       <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
     </button>
     <div>
-      <a href="index.html" class="sidebar-logo">
+      <a href="<?= base_url(); ?>home" class="sidebar-logo">
         <img src="<?= base_url(); ?>public/assets/images/consignlogo.svg" alt="site logo" class="light-logo">
         <img src="<?= base_url(); ?>public/assets/images/consignlogo.svg" alt="site logo" class="dark-logo" style="filter: invert(1) grayscale(1);">
         <img src="<?= base_url(); ?>public/assets/images/consignlogo.svg" alt="site logo" class="logo-icon">

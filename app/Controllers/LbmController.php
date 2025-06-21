@@ -386,10 +386,7 @@ class LbmController extends BaseController
     // ====================================lbm panel ========================
     public function lbmpanel()
     {
-        if (!$this->session->has('logged_user')) {
-
-            return view('loginview');
-        }
+       
         $lbms = $this->lbmmodel->getLbm();
         $data = [
             "meta_title" => "Consignus",
@@ -509,10 +506,7 @@ class LbmController extends BaseController
 
     public function propertylist()
     {
-        if (!$this->session->has('logged_user')) {
-
-            return view('loginview');
-        }
+       
         $properties = $this->pmodel->getPropertiesWithOneImage();
         // Get search keyword
         $search = $this->request->getGet('search');

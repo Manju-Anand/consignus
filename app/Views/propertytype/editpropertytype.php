@@ -41,6 +41,8 @@
                                         <option <?php if ($propertytype['category'] == "Villa") { ?> selected <?php } ?> value="Villa">Villa</option>
                                         <option <?php if ($propertytype['category'] == "Land") { ?> selected <?php } ?> value="Land">Land</option>
                                         <option <?php if ($propertytype['category'] == "Rental") { ?> selected <?php } ?> value="Rental">Rental</option>
+                                        <option <?php if ($propertytype['category'] == "House") { ?> selected <?php } ?> value="House">House</option>
+                                        <option <?php if ($propertytype['category'] == "Home-Stay") { ?> selected <?php } ?> value="Rental">Home-Stay</option>
                                     </select>
                                     <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
                                 </div>
@@ -146,7 +148,7 @@
 
                                         <!-- Editor start -->
                                         <div id="editor">
-                                          
+
                                         </div>
                                         <!-- Edit End -->
                                     </div>
@@ -162,7 +164,7 @@
                         <?php endif; ?>
                         <div class="row">
                             <div class="col-md-6  text-end">
-                            <button type="submit" name="submit" class="btn btn-primary-600 radius-8 px-60 py-8 w-100">Submit</button>
+                                <button type="submit" name="submit" class="btn btn-primary-600 radius-8 px-60 py-8 w-100">Submit</button>
 
                             </div>
                             <div class="col-md-6">
@@ -217,13 +219,13 @@
     });
 
     // Editor Js End
-   
-                $(document).ready(function() {
-                    $('#cancel').on('click', function() {
-                        window.location.href = "<?= base_url('property-type') ?>";
-                        return false;
-                    });
-                });
+
+    $(document).ready(function() {
+        $('#cancel').on('click', function() {
+            window.location.href = "<?= base_url('property-type') ?>";
+            return false;
+        });
+    });
 </script>
 
 <?= $this->endSection(); ?>

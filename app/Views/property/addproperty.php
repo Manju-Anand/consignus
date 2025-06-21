@@ -62,6 +62,7 @@
                       <option value="Land">Land</option>
                       <option value="Rental">Rental</option>
                       <option value="House">House</option>
+                      <option value="Home-Stay">Home-Stay</option>
                     </select>
                     <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
 

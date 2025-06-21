@@ -58,6 +58,7 @@
                                                 <option <?php if ($property['category'] == "Land") { ?> selected <?php } ?> value="Land">Land</option>
                                                 <option <?php if ($property['category'] == "Rental") { ?> selected <?php } ?> value="Rental">Rental</option>
                                                 <option <?php if ($property['category'] == "House") { ?> selected <?php } ?> value="House">House</option>
+                                                <option <?php if ($property['category'] == "Home-Stay") { ?> selected <?php } ?> value="Home-Stay">Home-Stay</option>
                                             </select>
                                             <span class="text-danger"><?= display_errors($validation ?? null, 'pcategory'); ?></span>
 

@@ -127,6 +127,38 @@
                         <?php endif; ?>
                     </div>
                
+<div class="row gy-4">
+    <?php if (count($propertyimages) == 1): ?>
+        <div class="col-12">
+            <div class="hover-scale-img border radius-16 overflow-hidden p-8 mainimage-wrapper">
+                <a href="<?= base_url('public/uploads/property/' . $propertyimages[0]->image_path) ?>" class="popup-img d-block radius-12 overflow-hidden">
+                    <img src="<?= base_url('public/uploads/property/' . $propertyimages[0]->image_path) ?>" alt="" class="hover-scale-img__img img-fluid w-100 object-fit-cover">
+                </a>
+            </div>
+        </div>
+    <?php elseif (count($propertyimages) > 1): ?>
+        <div class="col-12 col-md-6">
+            <div class="hover-scale-img border radius-16 overflow-hidden p-8 submainimage-wrapper">
+                <a href="<?= base_url('public/uploads/property/' . $propertyimages[0]->image_path) ?>" class="popup-img d-block radius-12 overflow-hidden">
+                    <img src="<?= base_url('public/uploads/property/' . $propertyimages[0]->image_path) ?>" alt="" class="hover-scale-img__img img-fluid w-100 object-fit-cover">
+                </a>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="row">
+                <?php foreach (array_slice($propertyimages, 1) as $image): ?>
+                    <div class="col-6 col-sm-6 mb-3">
+                        <div class="hover-scale-img border radius-16 overflow-hidden p-8 subimage-wrapper">
+                            <a href="<?= base_url('public/uploads/property/' . $image->image_path) ?>" class="popup-img d-block radius-12 overflow-hidden">
+                                <img src="<?= base_url('public/uploads/property/' . $image->image_path) ?>" alt="" class="hover-scale-img__img img-fluid w-100 object-fit-cover">
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
 
 
                 <br>

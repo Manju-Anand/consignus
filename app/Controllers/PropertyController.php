@@ -70,7 +70,7 @@ class PropertyController extends BaseController
             "meta_description" => "Consignus",
             "ptype" => $ptypes,
         ];
-$this->logData('info', 'property idaa array', $data);
+        $this->logData('info', 'property idaa array', $data);
         return $this->renderView('property/propertyexport', $data);
     }
 
@@ -340,7 +340,7 @@ $this->logData('info', 'property idaa array', $data);
         return view('property/property_cards', ['properties' => $properties]);
     }
 
-// ******************* this function is used to crop image to a specific dimension while uploading **************************
+    // ******************* this function is used to crop image to a specific dimension while uploading **************************
     private function processImage($file, $targetWidth = 720, $targetHeight = 520)
     {
         $image = \Config\Services::image();
@@ -387,7 +387,7 @@ $this->logData('info', 'property idaa array', $data);
 
 
 
- 
+
     // ********************* the below 2 functions to resize the pictures in a folder to a specific dimension altogether********************
     public function resizeAllPropertyImages()
     {
@@ -435,7 +435,7 @@ $this->logData('info', 'property idaa array', $data);
             ->save($imagePath); // overwrite original
     }
 
-// ************************ change old folder to new folder ***************************
+    // ************************ change old folder to new folder ***************************
 
     public function swapPropertyFolders()
     {

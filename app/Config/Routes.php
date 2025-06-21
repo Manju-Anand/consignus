@@ -22,6 +22,7 @@ $routes->post('registration-form', 'LoginController::registrationProcess');
 
 
 $routes->get('/lbmpanel', 'LbmController::lbmpanel');
+$routes->get('/lbmpanel/logout', 'LbmController::logout');
 $routes->post('lbmlogin-form', 'LbmController::processForm');
 $routes->get('/lbmpanel/home', 'LbmController::homeview');
 $routes->get('/lbmpanel/property', 'LbmController::propertylist');
@@ -30,6 +31,7 @@ $routes->get('/lbmpanel/view-property/(:num)', 'LbmController::viewproperty/$1')
 
 $routes->get('/staff', 'StaffController::index');
 $routes->get('/add-staff', 'StaffController::addstaff');
+
 $routes->post('staffadd-form', 'StaffController::savestaff'); 
 $routes->post('staff/viewDetails', 'StaffController::viewDetails'); 
 $routes->get('data-staff-view-db', 'UserController::showAllTables');
