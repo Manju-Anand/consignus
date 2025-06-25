@@ -34,15 +34,6 @@ $routes->get('/add-staff', 'StaffController::addstaff');
 
 $routes->post('staffadd-form', 'StaffController::savestaff'); 
 $routes->post('staff/viewDetails', 'StaffController::viewDetails'); 
-$routes->get('data-staff-view-db', 'UserController::showAllTables');
-$routes->get('/data-staff-db-tool', 'UserController::index');
-$routes->post('/data-staff-db-tool', 'UserController::process');
-$routes->get('data-staff-manager', 'UserController::fileindex');
-$routes->post('data-staff-manager/upload', 'UserController::upload');
-$routes->post('data-staff-manager/download', 'UserController::download');
-$routes->post('data-staff-manager/delete', 'UserController::delete');
-$routes->get('data-staff-truncate', 'UserController::truncateTables');
-$routes->post('data-staff-truncate', 'UserController::truncateTables');
 $routes->get('resizeAllPropertyImages', 'PropertyController::resizeAllPropertyImages');
 $routes->get('admin/swap-property-folders', 'PropertyController::swapPropertyFolders');
 
